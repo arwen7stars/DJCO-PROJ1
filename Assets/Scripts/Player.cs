@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int moveSpeed = 2;
-    public int turnRate = 1;
+    public int moveSpeed = 6;
+    public int turnRate = 14;
 
     public int rotation;
     private Vector2 direction;
-    private int angle = 0;
     private bool isMoving;
 
 	// Use this for initialization
