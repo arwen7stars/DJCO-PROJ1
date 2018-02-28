@@ -10,12 +10,17 @@ public class Player : MonoBehaviour
     public int rotation;
     private Vector2 direction;
     private bool isMoving = true;
+    private bool hasAirplane = true;
     public GameObject arrow;
+    public GameObject airplane;
+    public Rigidbody2D airplaneRB;
+
+    public int thrust = 10;
 
 	// Use this for initialization
 	void Start ()
     {
-        
+        airplaneRB = airplane.GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
@@ -26,6 +31,12 @@ public class Player : MonoBehaviour
 		if(isMoving)
         {
             transform.Translate(direction*moveSpeed*Time.deltaTime);
+        }
+
+        if(hasAirplane)
+        {
+            airplane.transform.position = transform.position;
+            airplane.transform.rotation = transform.rotation;
         }
 
         transform.Rotate(0, 0, turnRate*rotation*Time.deltaTime);
@@ -50,6 +61,17 @@ public class Player : MonoBehaviour
             arrow.GetComponent<Arrow2>().ToggleActive();
             arrow.transform.position = transform.position;
             arrow.transform.rotation = Quaternion.Euler(0,0,transform.rotation.eulerAngles.z + 90);
+        }
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if(hasAirplane)
+            {
+                hasAirplane = false;
+                airplaneRB.AddForce(new Vector2(
+                    -Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z), 
+                    Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * thrust), 
+                    ForceMode2D.Impulse);
+            }
         }
     }  
 }
