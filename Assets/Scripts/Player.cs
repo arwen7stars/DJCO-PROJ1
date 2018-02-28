@@ -9,12 +9,13 @@ public class Player : MonoBehaviour
 
     public int rotation;
     private Vector2 direction;
-    private bool isMoving;
+    private bool isMoving = true;
+    public GameObject arrow;
 
 	// Use this for initialization
 	void Start ()
     {
-        isMoving = true;
+        
 	}
 	
 	// Update is called once per frame
@@ -25,8 +26,9 @@ public class Player : MonoBehaviour
 		if(isMoving)
         {
             transform.Translate(direction*moveSpeed*Time.deltaTime);
-            transform.Rotate(0, 0, turnRate*rotation*Time.deltaTime);
         }
+
+        transform.Rotate(0, 0, turnRate*rotation*Time.deltaTime);
 	}
 
     void CheckKey()
@@ -42,5 +44,12 @@ public class Player : MonoBehaviour
             rotation -= turnRate;
         if (Input.GetKey(KeyCode.A))
             rotation += turnRate;
-    }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            isMoving = arrow.activeSelf;
+            arrow.GetComponent<Arrow2>().ToggleActive();
+            arrow.transform.position = transform.position;
+            arrow.transform.rotation = Quaternion.Euler(0,0,transform.rotation.eulerAngles.z + 90);
+        }
+    }  
 }
