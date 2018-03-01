@@ -33,13 +33,18 @@ public class Player : MonoBehaviour
             transform.Translate(direction*moveSpeed*Time.deltaTime);
         }
 
+        transform.Rotate(0, 0, turnRate*rotation*Time.deltaTime);
+
         if(hasAirplane)
         {
             airplane.transform.position = transform.position;
             airplane.transform.rotation = transform.rotation;
         }
 
-        transform.Rotate(0, 0, turnRate*rotation*Time.deltaTime);
+        if(arrow.activeSelf)
+        {
+            arrow.transform.rotation = Quaternion.Euler(0,0,transform.rotation.eulerAngles.z+90);
+        }
 	}
 
     void CheckKey()
@@ -69,7 +74,7 @@ public class Player : MonoBehaviour
                 hasAirplane = false;
                 airplaneRB.AddForce(new Vector2(
                     -Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z), 
-                    Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z) * thrust), 
+                    Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z))* thrust, 
                     ForceMode2D.Impulse);
             }
         }

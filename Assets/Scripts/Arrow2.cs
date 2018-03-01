@@ -15,10 +15,7 @@ public class Arrow2 : MonoBehaviour {
 	
 	void Update () 
 	{
-		transform.Rotate(0, 0, turnRate*rotation*Time.deltaTime);
-
-		if(gameObject.activeSelf)
-			CheckKey();
+		
 	}
 
 	public void ToggleActive()
@@ -28,14 +25,4 @@ public class Arrow2 : MonoBehaviour {
 		else
 			gameObject.SetActive(true);
 	}
-
-	void CheckKey()
-    {
-        rotation = 0;
-
-        if (Input.GetKey(KeyCode.D))
-            rotation -= turnRate;
-        if (Input.GetKey(KeyCode.A))
-            rotation += turnRate;
-    }
 }
