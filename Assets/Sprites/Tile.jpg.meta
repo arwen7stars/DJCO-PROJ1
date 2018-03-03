@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: c606e22846588a744b6fbb8c12ba5c01
-timeCreated: 1519315461
+guid: a5323a906e0922f46a31474cbf6d26c6
+timeCreated: 1520111578
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: persontopdownstill_0
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -41,13 +40,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 31, y: 74, z: 47, w: 60}
-  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 200
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -79,29 +78,8 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: persontopdownstill_0
-      rect:
-        serializedVersion: 2
-        x: 31
-        y: 74
-        width: 178
-        height: 122
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    outline:
-    - - {x: -80, y: 70}
-      - {x: -99, y: 64}
-      - {x: -99, y: -12}
-      - {x: -57, y: -58}
-      - {x: 82, y: -58}
-      - {x: 83, y: -53}
-      - {x: 83, y: 70}
+    sprites: []
+    outline: []
     physicsShape: []
   spritePackingTag: 
   userData: 
