@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     private Vector2 direction;
     private bool isMoving = true;
     private bool hasAirplane = true;
-    public GameObject arrow;
+
     public GameObject airplane;
     public Rigidbody2D airplaneRB;
 
@@ -40,11 +40,6 @@ public class Player : MonoBehaviour
             airplane.transform.position = transform.position;
             airplane.transform.rotation = transform.rotation;
         }
-
-        if(arrow.activeSelf)
-        {
-            arrow.transform.rotation = Quaternion.Euler(0,0,transform.rotation.eulerAngles.z+90);
-        }
 	}
 
     void CheckKey()
@@ -60,13 +55,6 @@ public class Player : MonoBehaviour
             rotation -= turnRate;
         if (Input.GetKey(KeyCode.A))
             rotation += turnRate;
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            isMoving = arrow.activeSelf;
-            arrow.GetComponent<Arrow2>().ToggleActive();
-            arrow.transform.position = transform.position;
-            arrow.transform.rotation = Quaternion.Euler(0,0,transform.rotation.eulerAngles.z + 90);
-        }
         if(Input.GetKeyDown(KeyCode.Space))
         {
             if(hasAirplane)
