@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public int moveSpeed = 6;
     public int turnRate = 14;
+    public Arrow arrowObj;
 
     public int rotation;
     private Vector2 direction;
@@ -46,6 +47,15 @@ public class Player : MonoBehaviour
     {
         direction = Vector2.zero;
         rotation = 0;
+        object[] obj = GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (object o in obj)
+        {
+            GameObject go = (GameObject)o;
+            if (go.name.Equals("Arrow"))
+            {
+                arrowObj = go.GetComponent<Arrow>();
+            }
+        }
 
         if (Input.GetKey(KeyCode.W))
             direction += Vector2.up;
@@ -61,9 +71,10 @@ public class Player : MonoBehaviour
             {
                 hasAirplane = false;
                 airplaneRB.AddForce(new Vector2(
-                    -Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z), 
-                    Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z))* thrust, 
+                    -Mathf.Sin(Mathf.Deg2Rad * arrowObj.angle),
+                    Mathf.Cos(Mathf.Deg2Rad * arrowObj.angle)) * thrust, 
                     ForceMode2D.Impulse);
+                arrowObj.sRenderer.enabled = !arrowObj.sRenderer.enabled;
             }
         }
     }  

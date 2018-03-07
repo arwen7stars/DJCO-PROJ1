@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow2 : MonoBehaviour {
+public class Arrow : MonoBehaviour {
 
 	// the diff between the player and this object's angle
 	public const int ANGLE_DIFF = 90;
@@ -20,20 +20,17 @@ public class Arrow2 : MonoBehaviour {
 	public GameObject player;
 
 	// sprite renderer
-	private SpriteRenderer sRenderer;
+	public SpriteRenderer sRenderer;
 
 	// the current angle (relative to player)
-	private float angle;
+	public float angle = 0;
 
 	// the current rotation speed
-	private float rotationSpeed;
+    public float rotationSpeed = ROTATION_SPEED;
 
 	
 	void Start ()
 	{
-		angle = 0;
-		rotationSpeed = ROTATION_SPEED;
-
 		sRenderer = GetComponent<SpriteRenderer>();
 
 		// Start the arrow at the same position as the player.
