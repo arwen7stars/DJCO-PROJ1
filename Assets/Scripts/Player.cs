@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
                 if(playerCollider.IsTouching(airplaneCollider))
                 {
                     hasAirplane = true;
+                    airplane.GetComponent<Airplane>().ResetAirplane();
                 }
             }
         }
