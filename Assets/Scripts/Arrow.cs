@@ -83,7 +83,7 @@ public class Arrow : MonoBehaviour {
 
 	void processInput() {
 
-		if (Input.GetKeyDown(ACTIVATE_KEY)) {
+		/*if (Input.GetKeyDown(ACTIVATE_KEY)) {
 
 			sRenderer.enabled = !sRenderer.enabled;
 
@@ -91,6 +91,6 @@ public class Arrow : MonoBehaviour {
 			if (!sRenderer.enabled) {
 				Debug.Log("Horizontal Angle: " + angle);
 			}
-		}
+		}*/
 	}
 }
