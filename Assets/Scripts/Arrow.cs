@@ -28,7 +28,8 @@ public class Arrow : MonoBehaviour {
 	// the current rotation speed
     public float rotationSpeed = ROTATION_SPEED;
 
-	
+
+
 	void Start ()
 	{
 		sRenderer = GetComponent<SpriteRenderer>();

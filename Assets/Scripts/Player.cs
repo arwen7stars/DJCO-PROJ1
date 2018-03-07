@@ -14,14 +14,17 @@ public class Player : MonoBehaviour
     private bool hasAirplane = true;
 
     public GameObject airplane;
-    public Rigidbody2D airplaneRB;
-
+    private Rigidbody2D airplaneRB;
+	private Collider2D airplaneCollider;
+    private Collider2D playerCollider;
     public int thrust = 10;
 
 	// Use this for initialization
 	void Start ()
     {
         airplaneRB = airplane.GetComponent<Rigidbody2D>();
+        airplaneCollider = airplane.GetComponent<Collider2D>();
+        playerCollider = GetComponent<Collider2D>();
 	}
 	
 	// Update is called once per frame
@@ -38,8 +41,20 @@ public class Player : MonoBehaviour
 
         if(hasAirplane)
         {
+            Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
             airplane.transform.position = transform.position;
             airplane.transform.rotation = transform.rotation;
+        }
+        else 
+        {
+            if(Mathf.Abs(airplaneRB.velocity.x) < 1 && Mathf.Abs(airplaneRB.velocity.y) < 1)
+            {
+                Physics2D.IgnoreCollision(playerCollider, airplaneCollider, false);
+                if(playerCollider.IsTouching(airplaneCollider))
+                {
+                    hasAirplane = true;
+                }
+            }
         }
 	}
 
@@ -69,10 +84,10 @@ public class Player : MonoBehaviour
         {
             if(hasAirplane)
             {
-
                 if (arrowObj.sRenderer.enabled)
                 {
                     hasAirplane = false;
+                    airplane.GetComponent<Airplane>().inFlight = true;
                     airplaneRB.AddForce(new Vector2(
                         -Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * arrowObj.angle),
                         Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * arrowObj.angle)) * thrust,
@@ -82,5 +97,5 @@ public class Player : MonoBehaviour
                 else arrowObj.sRenderer.enabled = !arrowObj.sRenderer.enabled;
             }
         }
-    }  
+    }
 }
