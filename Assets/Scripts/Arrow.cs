@@ -221,7 +221,6 @@ public class Arrow : MonoBehaviour
 
     void processInput()
     {
-
         if (Input.GetKeyDown(ACTIVATE_KEY))
         {
             // update current state
