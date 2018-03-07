@@ -69,10 +69,11 @@ public class Player : MonoBehaviour
         {
             if(hasAirplane)
             {
+
                 hasAirplane = false;
                 airplaneRB.AddForce(new Vector2(
-                    -Mathf.Sin(Mathf.Deg2Rad * arrowObj.angle),
-                    Mathf.Cos(Mathf.Deg2Rad * arrowObj.angle)) * thrust, 
+                    -Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * arrowObj.angle),
+                    Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * arrowObj.angle)) * thrust, 
                     ForceMode2D.Impulse);
                 arrowObj.sRenderer.enabled = !arrowObj.sRenderer.enabled;
             }
