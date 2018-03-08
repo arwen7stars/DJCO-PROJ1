@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
     public int moveSpeed = 6;
     public int turnRate = 14;
     public Arrow arrowObj;
-
     public int rotation;
     private Vector2 direction;
     private bool isMoving = true;
@@ -17,7 +16,6 @@ public class Player : MonoBehaviour
     private Rigidbody2D airplaneRB;
 	private Collider2D airplaneCollider;
     private Collider2D playerCollider;
-    public int thrust = 10;
 
 	// Use this for initialization
 	void Start ()
@@ -91,7 +89,8 @@ public class Player : MonoBehaviour
                     airplane.GetComponent<Airplane>().inFlight = true;
                     airplaneRB.AddForce(new Vector2(
                         -Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * arrowObj.angle),
-                        Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * arrowObj.angle)) * thrust,
+                        Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * arrowObj.angle)) * 
+                        airplane.GetComponent<Airplane>().START_VELOCITY,
                         ForceMode2D.Impulse);
                     arrowObj.sRenderer.enabled = !arrowObj.sRenderer.enabled;
                 }
