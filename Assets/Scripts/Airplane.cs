@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Airplane : MonoBehaviour 
+public class Airplane : MonoBehaviour
 {
 	public float START_VELOCITY;
 	public float STOP_VELOCITY;
@@ -28,7 +28,7 @@ public class Airplane : MonoBehaviour
 			if(initVelocity == Vector2.zero)
 			{
 				initVelocity = airplaneRB.velocity;
-				updatRotation();
+				updateRotation();
 			}
 
 			if(currentVelocity < randomSwerve && swerve > 0)
@@ -37,7 +37,7 @@ public class Airplane : MonoBehaviour
 				airplaneRB.AddForce((new Vector2(initVelocity.y, -initVelocity.x)/START_VELOCITY) * r, ForceMode2D.Impulse);
 				swerve--;
 				randomSwerve = Random.Range(STOP_VELOCITY, currentVelocity);
-				updatRotation();
+				updateRotation();
 			}
 
 			if(currentVelocity < STOP_VELOCITY)
@@ -56,11 +56,11 @@ public class Airplane : MonoBehaviour
 		airplaneRB.angularVelocity = 0;
 		randomSwerve = Random.Range(STOP_VELOCITY, START_VELOCITY);
 	}
-
-	private void updatRotation()
-	{
-		Vector2 dir = airplaneRB.velocity;
-		float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-		transform.rotation = Quaternion.AngleAxis(angle-90, Vector3.forward);
-	}
+	
+    private void updateRotation()
+    {
+        Vector2 dir = airplaneRB.velocity;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+    }
 }

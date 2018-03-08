@@ -32,7 +32,8 @@ public class Arrow : MonoBehaviour
     public class Idle : State
     {
 
-        public Idle(Arrow arrow) : base(arrow)
+        public Idle(Arrow arrow)
+            : base(arrow)
         {
             // make arrow invisible
             arrow.sRenderer.enabled = false;
@@ -44,7 +45,14 @@ public class Arrow : MonoBehaviour
 
         public override State next()
         {
-            return new ChoosingHor(arrow);
+            if (arrow.player.GetComponent<Player>().hasAirplane)
+            {
+                return new ChoosingHor(arrow);
+            }
+            else
+            {
+                return this;
+            }
         }
 
         public override State prev()
@@ -61,11 +69,12 @@ public class Arrow : MonoBehaviour
     public class ChoosingHor : State
     {
 
-        public ChoosingHor(Arrow arrow) : base(arrow)
-        {            
-        	// show arrow
-			arrow.sRenderer.enabled = true;
-		}
+        public ChoosingHor(Arrow arrow)
+            : base(arrow)
+        {
+            // show arrow
+            arrow.sRenderer.enabled = true;
+        }
 
         public override State next()
         {
@@ -108,7 +117,8 @@ public class Arrow : MonoBehaviour
     public class ChoosingVert : State
     {
 
-        public ChoosingVert(Arrow arrow) : base(arrow)
+        public ChoosingVert(Arrow arrow)
+            : base(arrow)
         { }
 
         public override State next()
@@ -130,11 +140,14 @@ public class Arrow : MonoBehaviour
     public class ChoosingForce : State
     {
 
-        public ChoosingForce(Arrow arrow) : base(arrow)
+        public ChoosingForce(Arrow arrow)
+            : base(arrow)
         { }
 
         public override State next()
         {
+            Player p = arrow.player.GetComponent<Player>();
+            p.throwAirplane(arrow.angle);
             return new Idle(arrow);
         }
 
@@ -159,7 +172,9 @@ public class Arrow : MonoBehaviour
     public const int ANGLE_OFFSET_LIMIT = 30;
 
     // the keybind to activate the arrow
-    public const KeyCode ACTIVATE_KEY = KeyCode.E;
+    public const KeyCode ACTIVATE_KEY_P1 = KeyCode.Space;
+    public const KeyCode ACTIVATE_KEY_P2 = KeyCode.KeypadEnter;
+    public KeyCode activateKey;
 
     // the player object
     public GameObject player;
@@ -183,6 +198,14 @@ public class Arrow : MonoBehaviour
         state = new Idle(this);
         angle = 0;
         rotationSpeed = ROTATION_SPEED;
+
+        if (player.gameObject.name.Equals("Player1")) {
+            activateKey = ACTIVATE_KEY_P1;
+        }
+        else
+        {
+            activateKey = ACTIVATE_KEY_P2;
+        }
 
         // Start the arrow at the same position as the player.
         updateTransform();
@@ -221,7 +244,7 @@ public class Arrow : MonoBehaviour
 
     void processInput()
     {
-        if (Input.GetKeyDown(ACTIVATE_KEY))
+        if (Input.GetKeyDown(activateKey))
         {
             // update current state
             state = state.next();
