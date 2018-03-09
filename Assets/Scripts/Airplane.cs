@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Airplane : MonoBehaviour
 {
-    public bool inFlight = false;
+    private float START_VELOCITY = 10;
+    private float STOP_VELOCITY = 5;
+    private bool inFlight = false;
     private Rigidbody2D airplaneRB;
     // Use this for initialization
     private Vector2 initVelocity = Vector2.zero;
-
-    private bool swerve = false;
+    private int swerve = 0;
+    private float randomSwerve;
     void Start()
     {
         airplaneRB = GetComponent<Rigidbody2D>();
+        randomSwerve = Random.Range(STOP_VELOCITY, START_VELOCITY);
+        swerve = Random.Range(1, 4);
     }
 
     // Update is called once per frame
@@ -20,23 +24,23 @@ public class Airplane : MonoBehaviour
     {
         if (inFlight)
         {
-            float randomSwerve = 20;
+            float currentVelocity = Mathf.Sqrt(Mathf.Pow(airplaneRB.velocity.x, 2) + Mathf.Pow(airplaneRB.velocity.y, 2));
             if (initVelocity == Vector2.zero)
             {
                 initVelocity = airplaneRB.velocity;
-                randomSwerve = Random.Range(15f, 20f);
                 updateRotation();
             }
 
-            if (Mathf.Abs(airplaneRB.velocity.x) < randomSwerve && Mathf.Abs(airplaneRB.velocity.y) < randomSwerve && !swerve)
+            if (currentVelocity < randomSwerve && swerve > 0)
             {
-                float r = Random.Range(-3f, 3f);
-                airplaneRB.AddForce((new Vector2(initVelocity.y, -initVelocity.x) / 10) * r, ForceMode2D.Impulse);
-                swerve = true;
+                float r = Random.Range(-currentVelocity / 2, currentVelocity / 2);
+                airplaneRB.AddForce((new Vector2(initVelocity.y, -initVelocity.x) / START_VELOCITY) * r, ForceMode2D.Impulse);
+                swerve--;
+                randomSwerve = Random.Range(STOP_VELOCITY, currentVelocity);
                 updateRotation();
             }
 
-            if (Mathf.Abs(airplaneRB.velocity.x) < 15 && Mathf.Abs(airplaneRB.velocity.y) < 15)
+            if (currentVelocity < STOP_VELOCITY)
             {
                 airplaneRB.AddForce(new Vector2(-airplaneRB.velocity.x, -airplaneRB.velocity.y) / 3, ForceMode2D.Impulse);
             }
@@ -46,9 +50,11 @@ public class Airplane : MonoBehaviour
     public void ResetAirplane()
     {
         inFlight = false;
-        swerve = false;
+        swerve = Random.Range(1, 4);
         initVelocity = Vector2.zero;
         airplaneRB.velocity = Vector2.zero;
+        airplaneRB.angularVelocity = 0;
+        randomSwerve = Random.Range(STOP_VELOCITY, START_VELOCITY);
     }
 
     private void updateRotation()
@@ -56,5 +62,25 @@ public class Airplane : MonoBehaviour
         Vector2 dir = airplaneRB.velocity;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+    }
+
+    public float getStartVelocity()
+    {
+        return START_VELOCITY;
+    }
+
+    public float getStopVelocity()
+    {
+        return STOP_VELOCITY;
+    }
+
+    public bool getInFlight()
+    {
+        return inFlight;
+    }
+
+    public void setInFlight(bool inFlight)
+    {
+        this.inFlight = inFlight;
     }
 }

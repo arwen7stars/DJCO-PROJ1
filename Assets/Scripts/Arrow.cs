@@ -45,7 +45,7 @@ public class Arrow : MonoBehaviour
 
         public override State next()
         {
-            if (arrow.player.GetComponent<Player>().hasAirplane)
+            if (arrow.player.GetComponent<Player>().getHasAirplane())
             {
                 return new ChoosingHor(arrow);
             }
