@@ -6,20 +6,19 @@ public class Player : MonoBehaviour {
     public Arrow arrow;
     public GameObject airplane;
 
-    private float moveSpeed = 3.0f;
+    private float moveSpeed = 6.0f;
     private float maxSpeed = 10.0f;
     private float acceleration = 1.0f;
 
     private int turnRate = 14;    
     private int rotation;
-    private Vector2 direction;
-    private Rigidbody2D playerRB;
-    private Collider2D playerCollider;
+    //private Vector2 direction;
+    public Rigidbody2D playerRB;
+    public Collider2D playerCollider;
     private bool hasAirplane = true;
-    private bool collisionDetect = false;
 
     private Rigidbody2D airplaneRB;
-    private Collider2D airplaneCollider;
+    public Collider2D airplaneCollider;
 
     private KeyCode up;
     private KeyCode down;
@@ -60,6 +59,7 @@ public class Player : MonoBehaviour {
                         airplane.GetComponent<Airplane>().ResetAirplane();
                     }
                 }
+                else Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
             }
             playerRB.velocity = Vector2.zero;
             playerRB.angularVelocity = 0;
@@ -85,7 +85,7 @@ public class Player : MonoBehaviour {
 
     void CheckKey()
     {
-        direction = Vector2.zero;
+        //direction = Vector2.zero;
         rotation = 0;
 
         if (this.gameObject.name.Equals("Player1"))
@@ -106,8 +106,9 @@ public class Player : MonoBehaviour {
         if (!arrow.sRenderer.enabled) {
             if (Input.GetKey(up) && !hasAirplane)
             {
-                direction += Vector2.up;
-                transform.Translate(direction * moveSpeed * Time.deltaTime);
+                /*direction += Vector2.up;
+                transform.Translate(direction * moveSpeed * Time.deltaTime);*/
+                playerRB.MovePosition(transform.position + moveSpeed * transform.up * Time.deltaTime);
                 
                 moveSpeed += acceleration * Time.deltaTime;
 
@@ -121,8 +122,10 @@ public class Player : MonoBehaviour {
 
             if (Input.GetKey(down) && !hasAirplane)
             {
-                direction += Vector2.down;
-                transform.Translate(direction * moveSpeed * Time.deltaTime);
+                /*direction += Vector2.down;
+                transform.Translate(direction * moveSpeed * Time.deltaTime);*/
+                playerRB.MovePosition(transform.position - moveSpeed * transform.up * Time.deltaTime);
+
             }
             if (Input.GetKey(right))
             {
@@ -155,15 +158,4 @@ public class Player : MonoBehaviour {
         return hasAirplane;
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        collisionDetect = true;
-        Debug.Log(collisionDetect);
-    }
-
-    void OnCollisionExit(Collision collision)
-    {
-        collisionDetect = false;
-        Debug.Log(collisionDetect);
-    }
 }
