@@ -36,48 +36,50 @@ public class Player : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!FinishingLine.gameOver)
+        if (TrackTargets.gameStart)
         {
-            CheckKey();
-
-            if (hasAirplane)
+            if (!FinishingLine.gameOver)
             {
-                Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
-                airplane.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
-                airplane.transform.rotation = transform.rotation;
+                CheckKey();
+
+                if (hasAirplane)
+                {
+                    Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
+                    airplane.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
+                    airplane.transform.rotation = transform.rotation;
+                }
+                else
+                {
+                    if (Mathf.Abs(airplaneRB.velocity.x) < 2 && Mathf.Abs(airplaneRB.velocity.y) < 2)
+                    {
+                        Physics2D.IgnoreCollision(playerCollider, airplaneCollider, false);
+                        if (playerCollider.IsTouching(airplaneCollider))
+                        {
+                            hasAirplane = true;
+                            airplane.GetComponent<Airplane>().ResetAirplane();
+                        }
+                    }
+                    else Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
+                }
+                playerRB.velocity = Vector2.zero;
+                playerRB.angularVelocity = 0;
             }
             else
             {
-                if (Mathf.Abs(airplaneRB.velocity.x) < 2 && Mathf.Abs(airplaneRB.velocity.y) < 2)
+                Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
+
+                if (FinishingLine.winner.name.Equals(gameObject.name))
                 {
-                    Physics2D.IgnoreCollision(playerCollider, airplaneCollider, false);
+                    Vector3 target = airplane.transform.position;
+                    float step = moveSpeed / 2 * Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(transform.position, target, step);
+
                     if (playerCollider.IsTouching(airplaneCollider))
                     {
-                        hasAirplane = true;
                         airplane.GetComponent<Airplane>().ResetAirplane();
                     }
                 }
-                else Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
             }
-            playerRB.velocity = Vector2.zero;
-            playerRB.angularVelocity = 0;
-        }
-        else
-        {
-            Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
-            
-            if (FinishingLine.winner.name.Equals(gameObject.name))
-            {
-                Vector3 target = airplane.transform.position;
-                float step = moveSpeed / 2 * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, target, step);
-
-                if (playerCollider.IsTouching(airplaneCollider))
-                {
-                    airplane.GetComponent<Airplane>().ResetAirplane();
-                }
-            }
-
         }
     }
 

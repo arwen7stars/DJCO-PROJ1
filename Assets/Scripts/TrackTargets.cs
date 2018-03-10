@@ -3,6 +3,8 @@
 public class TrackTargets : MonoBehaviour
 {
 
+    public static bool gameStart = false;
+    
     [SerializeField]
     GameObject[] targets;
 
@@ -15,19 +17,47 @@ public class TrackTargets : MonoBehaviour
     [SerializeField]
     float zoomSpeed = 20f;
 
+    private const float COUNTDOWN_TIMER = 3.0f;
+    private float timeLeft = COUNTDOWN_TIMER;
+    private float zoomSensitivity = 5.0f;
+    private float zoom;
+    public float initialZoomSpeed;
+
     new Camera camera;
 
     void Awake()
     {
         camera = GetComponent<Camera>();
         camera.orthographic = true;
+
+        Rect boundingBox = CalculateTargetsBoundingBox();
+        transform.position = CalculateCameraPosition(boundingBox);
+        zoom = camera.orthographicSize;
+
+        initialZoomSpeed = (zoom - minimumOrthographicSize) / COUNTDOWN_TIMER / zoomSensitivity;
+    }
+
+    void Update()
+    {
+        zoom -= zoomSensitivity;
+        zoom = Mathf.Clamp(Mathf.Lerp(camera.orthographicSize, zoom, Time.deltaTime * initialZoomSpeed), minimumOrthographicSize, Mathf.Infinity);
     }
 
     void LateUpdate()
     {
-        Rect boundingBox = CalculateTargetsBoundingBox();
-        transform.position = CalculateCameraPosition(boundingBox);
-        camera.orthographicSize = CalculateOrthographicSize(boundingBox);
+        timeLeft -= Time.deltaTime;
+        if (timeLeft <= 0)
+        {
+            gameStart = true;
+            Rect boundingBox = CalculateTargetsBoundingBox();
+            transform.position = CalculateCameraPosition(boundingBox);
+            camera.orthographicSize = CalculateOrthographicSize(boundingBox);
+        }
+        else
+        {
+            camera.orthographicSize = zoom;
+            Debug.Log(timeLeft);
+        }
     }
 
     /// <summary>

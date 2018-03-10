@@ -244,10 +244,13 @@ public class Arrow : MonoBehaviour
 
     void processInput()
     {
-        if (Input.GetKeyDown(activateKey))
+        if (TrackTargets.gameStart)
         {
-            // update current state
-            state = state.next();
+            if (Input.GetKeyDown(activateKey))
+            {
+                // update current state
+                state = state.next();
+            }
         }
     }
 }
