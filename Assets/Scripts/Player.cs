@@ -9,10 +9,8 @@ public class Player : MonoBehaviour {
     private float moveSpeed = 6.0f;
     private float maxSpeed = 10.0f;
     private float acceleration = 1.0f;
+    private float turnRate = 100f;    
 
-    private int turnRate = 14;    
-    private int rotation;
-    //private Vector2 direction;
     public Rigidbody2D playerRB;
     public Collider2D playerCollider;
     private bool hasAirplane = true;
@@ -85,9 +83,6 @@ public class Player : MonoBehaviour {
 
     void CheckKey()
     {
-        //direction = Vector2.zero;
-        rotation = 0;
-
         if (this.gameObject.name.Equals("Player1"))
         {
             up = KeyCode.W;
@@ -106,8 +101,6 @@ public class Player : MonoBehaviour {
         if (!arrow.sRenderer.enabled) {
             if (Input.GetKey(up) && !hasAirplane)
             {
-                /*direction += Vector2.up;
-                transform.Translate(direction * moveSpeed * Time.deltaTime);*/
                 playerRB.MovePosition(transform.position + moveSpeed * transform.up * Time.deltaTime);
                 
                 moveSpeed += acceleration * Time.deltaTime;
@@ -122,20 +115,16 @@ public class Player : MonoBehaviour {
 
             if (Input.GetKey(down) && !hasAirplane)
             {
-                /*direction += Vector2.down;
-                transform.Translate(direction * moveSpeed * Time.deltaTime);*/
                 playerRB.MovePosition(transform.position - moveSpeed * transform.up * Time.deltaTime);
 
             }
             if (Input.GetKey(right))
             {
-                rotation -= turnRate;
-                transform.Rotate(0, 0, turnRate * rotation * Time.deltaTime);
+                playerRB.MoveRotation(playerRB.rotation + turnRate * Time.fixedDeltaTime);
             }
             if (Input.GetKey(left))
             {
-                rotation += turnRate;
-                transform.Rotate(0, 0, turnRate * rotation * Time.deltaTime);
+                playerRB.MoveRotation(playerRB.rotation - turnRate * Time.fixedDeltaTime);
             }
         }
     }
