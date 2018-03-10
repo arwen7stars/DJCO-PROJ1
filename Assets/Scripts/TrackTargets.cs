@@ -19,7 +19,7 @@ public class TrackTargets : MonoBehaviour
 
     private const float COUNTDOWN_TIMER = 3.0f;
     private float timeLeft = COUNTDOWN_TIMER;
-    private float zoomSensitivity = 5.0f;
+    private float zoomSensitivity = 3.0f;
     private float zoom;
     public float initialZoomSpeed;
 
