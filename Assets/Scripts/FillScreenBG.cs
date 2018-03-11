@@ -30,11 +30,8 @@ public class FillScreenBG : MonoBehaviour {
         Vector3 xWidth = transform.localScale;
         xWidth.x = worldScreenWidth / width;
         transform.localScale = xWidth;
-        //transform.localScale.x = worldScreenWidth / width;
         Vector3 yHeight = transform.localScale;
         yHeight.y = worldScreenHeight / height;
         transform.localScale = yHeight;
-        //transform.localScale.y = worldScreenHeight / height;
-
     }
 }

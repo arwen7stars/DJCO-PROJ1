@@ -2,26 +2,19 @@
 
 public class TrackTargets : MonoBehaviour
 {
+    private const float COUNTDOWN_TIMER = 3.0f;
 
     public static bool gameStart = false;
+    public static float timeLeft = COUNTDOWN_TIMER;
     
-    [SerializeField]
-    GameObject[] targets;
+    public GameObject[] targets;
+    public float boundingBoxPadding = 4f;
+    public float minimumOrthographicSize = 8f;
+    public float zoomSpeed = 20f;
 
-    [SerializeField]
-    float boundingBoxPadding = 2f;
-
-    [SerializeField]
-    float minimumOrthographicSize = 8f;
-
-    [SerializeField]
-    float zoomSpeed = 20f;
-
-    private const float COUNTDOWN_TIMER = 3.0f;
-    private float timeLeft = COUNTDOWN_TIMER;
     private float zoomSensitivity = 3.0f;
     private float zoom;
-    public float initialZoomSpeed;
+    private float initialZoomSpeed;
 
     new Camera camera;
 
@@ -45,7 +38,6 @@ public class TrackTargets : MonoBehaviour
 
     void LateUpdate()
     {
-        timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
         {
             gameStart = true;
@@ -55,8 +47,8 @@ public class TrackTargets : MonoBehaviour
         }
         else
         {
+            timeLeft -= Time.deltaTime;
             camera.orthographicSize = zoom;
-            Debug.Log(timeLeft);
         }
     }
 
