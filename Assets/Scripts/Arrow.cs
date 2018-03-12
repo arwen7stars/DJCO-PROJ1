@@ -244,7 +244,7 @@ public class Arrow : MonoBehaviour
 
     void processInput()
     {
-        if (TrackTargets.gameStart)
+        if (TrackTargets.gameStart && !FinishingLine.gameOver)
         {
             if (Input.GetKeyDown(activateKey))
             {

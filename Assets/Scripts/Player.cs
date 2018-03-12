@@ -86,6 +86,9 @@ public class Player : MonoBehaviour {
                         airplane.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
                         airplane.transform.rotation = transform.rotation;
 
+                        playerRB.velocity = Vector2.zero;
+                        playerRB.angularVelocity = 0;
+
                         finishingPosition = true;
                     }
                     else
@@ -95,6 +98,13 @@ public class Player : MonoBehaviour {
                         Vector3 target = airplane.transform.position;
                         float step = moveSpeed / 2 * Time.deltaTime;
                         transform.position = Vector3.MoveTowards(transform.position, target, step);
+                    }
+                }
+                else
+                {
+                    if (running)
+                    {
+                        playerAnimator.SetBool("RunToggle", false);
                     }
                 }
             }
@@ -155,12 +165,12 @@ public class Player : MonoBehaviour {
 
             if (Input.GetKey(right))
             {
-                playerRB.MoveRotation(playerRB.rotation + turnRate * Time.fixedDeltaTime);
+                playerRB.MoveRotation(playerRB.rotation - turnRate * Time.fixedDeltaTime);
             }
 
             if (Input.GetKey(left))
             {
-                playerRB.MoveRotation(playerRB.rotation - turnRate * Time.fixedDeltaTime);
+                playerRB.MoveRotation(playerRB.rotation + turnRate * Time.fixedDeltaTime);
             }
         }
     }
