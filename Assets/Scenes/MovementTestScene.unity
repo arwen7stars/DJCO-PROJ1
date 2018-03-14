@@ -764,6 +764,7 @@ GameObject:
   - component: {fileID: 303794875}
   - component: {fileID: 303794877}
   - component: {fileID: 303794878}
+  - component: {fileID: 303794879}
   m_Layer: 0
   m_Name: Arrow1
   m_TagString: Untagged
@@ -805,8 +806,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7db1155aad5bfbd4aa88eac2043c7ec0, type: 3}
-  m_Color: {r: 0.90588236, g: 0.4, b: 0.38431373, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c6b1640425422544183a63294714b783, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -821,13 +822,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 303794874}
-  m_LocalRotation: {x: 0.003275526, y: 6.984919e-10, z: 0.99999464, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.20000009, y: 0.8000005, z: 1}
+  m_LocalRotation: {x: 0, y: 0.00327253, z: 0, w: 0.99999464}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 30, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 1467473908}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.37500003, y: 0, z: 90.00001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0.37500003, z: 0}
 --- !u!114 &303794877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,9 +840,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4038d793735faf43a3459492434caf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Y_DIFF: 1
   activateKey: 0
   player: {fileID: 1467473905}
   sRenderer: {fileID: 303794875}
+  animator: {fileID: 0}
   angle: 0
   rotationSpeed: 120
 --- !u!50 &303794878
@@ -864,6 +867,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &303794879
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 303794874}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 918ef2c93d9ecb34dbac099db1d50dbc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &349231751
 GameObject:
   m_ObjectHideFlags: 0
@@ -5785,6 +5805,7 @@ GameObject:
   - component: {fileID: 1508516177}
   - component: {fileID: 1508516176}
   - component: {fileID: 1508516175}
+  - component: {fileID: 1508516178}
   m_Layer: 0
   m_Name: Arrow2
   m_TagString: Untagged
@@ -5798,13 +5819,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1508516173}
-  m_LocalRotation: {x: 0.003275526, y: 6.984919e-10, z: 0.99999464, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.20000015, y: 0.8000009, z: 1}
+  m_LocalRotation: {x: 0, y: 0.00327253, z: 0, w: 0.99999464}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 30, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 1167174363}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.37500003, y: 0, z: 90.00001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0.37500003, z: 0}
 --- !u!50 &1508516175
 Rigidbody2D:
   serializedVersion: 4
@@ -5836,9 +5857,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4038d793735faf43a3459492434caf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Y_DIFF: 1
   activateKey: 0
   player: {fileID: 1167174358}
   sRenderer: {fileID: 1508516177}
+  animator: {fileID: 0}
   angle: 0
   rotationSpeed: 120
 --- !u!212 &1508516177
@@ -5875,8 +5898,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8c3275e1c8066b44e9d50f340d9af86c, type: 3}
-  m_Color: {r: 0, g: 0.6313726, b: 0.7843138, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c6b1640425422544183a63294714b783, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5885,6 +5908,23 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!95 &1508516178
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1508516173}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 918ef2c93d9ecb34dbac099db1d50dbc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1613298542
 GameObject:
   m_ObjectHideFlags: 0

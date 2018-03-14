@@ -5,7 +5,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
 
-    // > idle > hor > vert > force >
+    // > idle > active >
     public abstract class State
     {
         // the arrow instance to update
@@ -19,9 +19,6 @@ public class Arrow : MonoBehaviour
 
         // move to the next state
         public abstract State next();
-
-        // move to the previous state
-        public abstract State prev();
 
         // update arrow
         public abstract void update();
@@ -38,6 +35,9 @@ public class Arrow : MonoBehaviour
             // make arrow invisible
             arrow.sRenderer.enabled = false;
 
+            // stop animation playback
+            arrow.animator.enabled = false;
+
             // reset it's values
             arrow.angle = 0;
             arrow.rotationSpeed = ROTATION_SPEED;
@@ -47,17 +47,12 @@ public class Arrow : MonoBehaviour
         {
             if (arrow.player.GetComponent<Player>().getHasAirplane())
             {
-                return new ChoosingHor(arrow);
+                return new Active(arrow);
             }
             else
             {
                 return this;
             }
-        }
-
-        public override State prev()
-        {
-            return new ChoosingForce(arrow);
         }
 
         public override void update()
@@ -66,23 +61,23 @@ public class Arrow : MonoBehaviour
     } // Idle
 
 
-    public class ChoosingHor : State
+    public class Active : State
     {
 
-        public ChoosingHor(Arrow arrow)
+        public Active(Arrow arrow)
             : base(arrow)
         {
             // show arrow
             arrow.sRenderer.enabled = true;
+
+            // enable animation
+            arrow.animator.enabled = true;
         }
 
         public override State next()
         {
-            return new ChoosingVert(arrow);
-        }
-
-        public override State prev()
-        {
+            Player p = arrow.player.GetComponent<Player>();
+            p.throwAirplane(arrow.angle);
             return new Idle(arrow);
         }
 
@@ -111,59 +106,11 @@ public class Arrow : MonoBehaviour
             }
         }
 
-    } // ChoosingHor
+    } // Active
 
 
-    public class ChoosingVert : State
-    {
-
-        public ChoosingVert(Arrow arrow)
-            : base(arrow)
-        { }
-
-        public override State next()
-        {
-            return new ChoosingForce(arrow);
-        }
-
-        public override State prev()
-        {
-            return new ChoosingHor(arrow);
-        }
-
-        public override void update()
-        { }
-
-    } // ChoosingVert
-
-
-    public class ChoosingForce : State
-    {
-
-        public ChoosingForce(Arrow arrow)
-            : base(arrow)
-        { }
-
-        public override State next()
-        {
-            Player p = arrow.player.GetComponent<Player>();
-            p.throwAirplane(arrow.angle);
-            return new Idle(arrow);
-        }
-
-        public override State prev()
-        {
-            return new ChoosingVert(arrow);
-        }
-
-        public override void update()
-        { }
-
-    } // ChoosingForce
-
-
-    // the diff between the player and this object's angle
-    public const int ANGLE_DIFF = 90;
+    // the diff between the player and this object's y position
+    public int Y_DIFF = 1;
 
     // abs value of rotation speed in angle/sec
     public const int ROTATION_SPEED = 120;
@@ -182,6 +129,9 @@ public class Arrow : MonoBehaviour
     // sprite renderer
     public SpriteRenderer sRenderer;
 
+    // animator
+    public Animator animator;
+
     // the current state
     public State state;
 
@@ -195,6 +145,8 @@ public class Arrow : MonoBehaviour
     void Start()
     {
         sRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+
         state = new Idle(this);
         angle = 0;
         rotationSpeed = ROTATION_SPEED;
@@ -217,7 +169,7 @@ public class Arrow : MonoBehaviour
     {
         transform.position = player.transform.position;
         transform.rotation = player.transform.rotation;
-        transform.Rotate(0, 0, ANGLE_DIFF);
+        transform.Translate(0, Y_DIFF, 0);
     }
 
 
