@@ -44,6 +44,15 @@ TagManager:
   - name: Floor
     uniqueID: 3238366793
     locked: 0
+  - name: Side Walls 1
+    uniqueID: 1590964449
+    locked: 0
+  - name: Walls
+    uniqueID: 100493115
+    locked: 0
+  - name: Side Walls 2
+    uniqueID: 172096635
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

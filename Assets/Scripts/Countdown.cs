@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Countdown : MonoBehaviour {
-    public float transitionSpeed = 2.0f;
+    public float transitionSpeed = 0.5f;
 
     public GameObject three;
     public GameObject two;
@@ -31,14 +31,13 @@ public class Countdown : MonoBehaviour {
         if(TrackTargets.timeLeft <= 0) {
             if (goTime > 0)
             {
-                one.SetActive(false);
-
                 if (opacityGo < 1.0f)
                 {
+                    one.SetActive(false);
                     opacityGo += transitionSpeed * Time.deltaTime;
+                    showGradually(go, opacityGo);
                 }
 
-                showNumber(go, opacityGo);
                 goTime -= Time.deltaTime;
             }
             else
@@ -48,7 +47,7 @@ public class Countdown : MonoBehaviour {
         } else if (TrackTargets.timeLeft <= 1 && TrackTargets.timeLeft > 0)
         {
             two.SetActive(false);
-            showNumber(one, opacityOne);
+            showGradually(one, opacityOne);
 
             if (opacityOne < 1.0f)
             {
@@ -58,7 +57,7 @@ public class Countdown : MonoBehaviour {
         else if (TrackTargets.timeLeft <= 2.0f && TrackTargets.timeLeft > 1.0f)
         {
             three.SetActive(false);
-            showNumber(two, opacityTwo);
+            showGradually(two, opacityTwo);
 
             if (opacityTwo < 1.0f)
             {
@@ -67,7 +66,7 @@ public class Countdown : MonoBehaviour {
         }
         else if (TrackTargets.timeLeft <= 3.0f && TrackTargets.timeLeft > 2.0f)
         {
-            showNumber(three, opacityThree);
+            showGradually(three, opacityThree);
 
             if (opacityThree < 1.0f)
             {
@@ -76,7 +75,7 @@ public class Countdown : MonoBehaviour {
         }
 	}
 
-    public void showNumber(GameObject obj, float opacity)
+    public void showGradually(GameObject obj, float opacity)
     {
         Image img = obj.GetComponent<Image>();
         Color c = img.color;

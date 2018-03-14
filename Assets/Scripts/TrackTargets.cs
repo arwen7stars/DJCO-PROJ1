@@ -12,6 +12,10 @@ public class TrackTargets : MonoBehaviour
     public float minimumOrthographicSize = 8f;
     public float zoomSpeed = 20f;
 
+    private Vector3 initialPosition;
+    private Vector3 finalPosition;
+    private float step;
+
     private float zoomSensitivity = 3.0f;
     private float zoom;
     private float initialZoomSpeed;
@@ -24,7 +28,11 @@ public class TrackTargets : MonoBehaviour
         camera.orthographic = true;
 
         Rect boundingBox = CalculateTargetsBoundingBox();
-        transform.position = CalculateCameraPosition(boundingBox);
+        
+        initialPosition = new Vector3(0,0,-9);
+        finalPosition = CalculateCameraPosition(boundingBox);
+        step = 0;
+
         zoom = camera.orthographicSize;
 
         initialZoomSpeed = (zoom - minimumOrthographicSize) / COUNTDOWN_TIMER / zoomSensitivity;
@@ -48,7 +56,11 @@ public class TrackTargets : MonoBehaviour
         else
         {
             timeLeft -= Time.deltaTime;
+
             camera.orthographicSize = zoom;
+
+            step += Time.deltaTime / COUNTDOWN_TIMER;
+            transform.position = Vector3.Lerp(initialPosition, finalPosition, step);
         }
     }
 

@@ -223,28 +223,38 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
-        processInput();
-
-        // no need to update stuff if object isnt visible
-        if (!sRenderer.enabled)
+        if (!FinishingLine.gameOver)
         {
-            return;
+            processInput();
+
+            // no need to update stuff if object isnt visible
+            if (!sRenderer.enabled)
+            {
+                return;
+            }
+
+            // update transform to match player's
+            updateTransform();
+
+            // update self
+            state.update();
+
+            // update transform with new values
+            transform.Rotate(0, 0, angle);
         }
-
-        // update transform to match player's
-        updateTransform();
-
-        // update self
-        state.update();
-
-        // update transform with new values
-        transform.Rotate(0, 0, angle);
+        else
+        {
+            if (sRenderer.enabled)
+            {
+                sRenderer.enabled = false;
+            }
+        }
     }
 
 
     void processInput()
     {
-        if (TrackTargets.gameStart && !FinishingLine.gameOver)
+        if (TrackTargets.gameStart)
         {
             if (Input.GetKeyDown(activateKey))
             {
