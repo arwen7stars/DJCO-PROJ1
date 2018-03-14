@@ -46,8 +46,8 @@ public class Player : MonoBehaviour {
         
         if (TrackTargets.gameStart)
         {
-            playerRB.angularVelocity = 0;
-            playerRB.velocity = Vector2.zero;
+            //playerRB.angularVelocity = 0;
+            //playerRB.velocity = Vector2.zero;
 
             if (!FinishingLine.gameOver)
             {
