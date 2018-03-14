@@ -587,8 +587,9 @@ GameObject:
   - component: {fileID: 285202286}
   - component: {fileID: 285202288}
   - component: {fileID: 285202287}
-  - component: {fileID: 285202289}
   - component: {fileID: 285202290}
+  - component: {fileID: 285202289}
+  - component: {fileID: 285202291}
   m_Layer: 0
   m_Name: Airplane2
   m_TagString: Untagged
@@ -727,6 +728,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15e3fc398558de448efb77cac8da521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &285202291
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 285202285}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.0833333, y: 2.4666667}
+    newSize: {x: 8, y: 6.98}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1, y: 1.7}
+  m_EdgeRadius: 0
 --- !u!1 &303794874
 GameObject:
   m_ObjectHideFlags: 0
@@ -4656,6 +4682,7 @@ GameObject:
   - component: {fileID: 865364394}
   - component: {fileID: 865364395}
   - component: {fileID: 865364396}
+  - component: {fileID: 865364397}
   m_Layer: 0
   m_Name: Airplane1
   m_TagString: Untagged
@@ -4794,6 +4821,31 @@ PolygonCollider2D:
       - {x: 0.5083334, y: -0.6666667}
       - {x: 0.5416667, y: -0.35000002}
       - {x: 0.5416667, y: -0.18333334}
+--- !u!61 &865364397
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 865364391}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.0833333, y: 2.4666667}
+    newSize: {x: 8, y: 6.98}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1, y: 1.7}
+  m_EdgeRadius: 0
 --- !u!1 &1049554269
 GameObject:
   m_ObjectHideFlags: 0
@@ -5139,7 +5191,7 @@ MonoBehaviour:
   playerTwo: {fileID: 1167174358}
   happy: {fileID: 1224713524}
   sad: {fileID: 1958586444}
-  transitionSpeed: 2
+  transitionSpeed: 0.1
 --- !u!1 &1122131457
 GameObject:
   m_ObjectHideFlags: 0
@@ -5152,7 +5204,7 @@ GameObject:
   - component: {fileID: 1122131460}
   - component: {fileID: 1122131459}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5406,6 +5458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 1508516176}
   airplane: {fileID: 285202285}
+  opponent: {fileID: 1467473905}
 --- !u!1 &1224713524
 GameObject:
   m_ObjectHideFlags: 0
@@ -5720,6 +5773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 303794877}
   airplane: {fileID: 865364391}
+  opponent: {fileID: 1167174358}
 --- !u!1 &1508516173
 GameObject:
   m_ObjectHideFlags: 0

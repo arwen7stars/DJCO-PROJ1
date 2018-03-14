@@ -5,10 +5,13 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     public Arrow arrow;
     public GameObject airplane;
+    public GameObject opponent;
 
-    private float moveSpeed = 6.0f;
-    private float maxSpeed = 12.0f;
-    private float acceleration = 1.0f;
+    private const float INITIAL_SPEED = 5.0f;
+
+    private float moveSpeed = INITIAL_SPEED;
+    private float maxSpeed = 20.0f;
+    private float acceleration = 5.0f;
     private float turnRate = 250f;
 
     private Animator playerAnimator;
@@ -28,13 +31,13 @@ public class Player : MonoBehaviour {
 
     // Use this for initialization
     void Start()
-    {
+    {   
         airplaneRB = airplane.GetComponent<Rigidbody2D>();
-        airplaneCollider = airplane.GetComponent<Collider2D>();
+        airplaneCollider = airplane.GetComponent<BoxCollider2D>();
         playerCollider = GetComponent<Collider2D>();
         playerRB = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
-        Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
+        Physics2D.IgnoreCollision(playerCollider, airplane.GetComponent<PolygonCollider2D>(), true);
     }
 
     // Update is called once per frame
@@ -43,8 +46,8 @@ public class Player : MonoBehaviour {
         
         if (TrackTargets.gameStart)
         {
-            playerRB.velocity = Vector2.zero;
             playerRB.angularVelocity = 0;
+            playerRB.velocity = Vector2.zero;
 
             if (!FinishingLine.gameOver)
             {
@@ -52,7 +55,6 @@ public class Player : MonoBehaviour {
 
                 if (hasAirplane)
                 {
-                    Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
                     airplane.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
                     airplane.transform.rotation = transform.rotation;
                 }
@@ -60,11 +62,13 @@ public class Player : MonoBehaviour {
                 {
                     catchAirplane();
                 }
+
+                if (playerCollider.IsTouching(opponent.GetComponent<Collider2D>()))
+                {
+                }
             }
             else
             {
-                Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
-
                 if (FinishingLine.winner.name.Equals(gameObject.name) && !finishingPosition)
                 {
                     runTowardsAirplane();
@@ -108,7 +112,6 @@ public class Player : MonoBehaviour {
                 playerAnimator.SetBool("RunToggle", true);
                 running = true;
                 playerRB.MovePosition(transform.position + moveSpeed * transform.up * Time.deltaTime);
-                
                 moveSpeed += acceleration * Time.deltaTime;
 
                 if (moveSpeed > maxSpeed)
@@ -116,12 +119,15 @@ public class Player : MonoBehaviour {
             }
             else
             {
-                moveSpeed = 6.0f;
-
                 if (running && !Input.GetKey(down))
                 {
                     playerAnimator.SetBool("RunToggle", false);
                 }
+            }
+
+            if (Input.GetKeyUp(up))
+            {
+                moveSpeed = INITIAL_SPEED;
             }
 
             if (Input.GetKey(down) && !hasAirplane)
@@ -140,11 +146,22 @@ public class Player : MonoBehaviour {
             if (Input.GetKey(right))
             {
                 playerRB.MoveRotation(playerRB.rotation - turnRate * Time.fixedDeltaTime);
+
+                if (moveSpeed > INITIAL_SPEED)
+                {
+                    moveSpeed -= acceleration * Time.deltaTime;
+                }
+
             }
 
             if (Input.GetKey(left))
             {
                 playerRB.MoveRotation(playerRB.rotation + turnRate * Time.fixedDeltaTime);
+
+                if (moveSpeed > INITIAL_SPEED)
+                {
+                    moveSpeed -= acceleration * Time.deltaTime;
+                }
             }
         }
     }
@@ -153,26 +170,20 @@ public class Player : MonoBehaviour {
     {
         if (Mathf.Abs(airplaneRB.velocity.x) < 2 && Mathf.Abs(airplaneRB.velocity.y) < 2)
         {
-            Physics2D.IgnoreCollision(playerCollider, airplaneCollider, false);
             if (playerCollider.IsTouching(airplaneCollider))
             {
                 hasAirplane = true;
                 airplane.GetComponent<Airplane>().ResetAirplane();
             }
         }
-        else Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
     }
 
     void runTowardsAirplane()
     {
-        Physics2D.IgnoreCollision(playerCollider, airplaneCollider, false);
-
         if (playerCollider.IsTouching(airplaneCollider))
         {
             airplane.GetComponent<Airplane>().ResetAirplane();
             playerAnimator.SetBool("RunToggle", false);
-
-            Physics2D.IgnoreCollision(playerCollider, airplaneCollider, true);
 
             airplane.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
             airplane.transform.rotation = transform.rotation;
@@ -214,5 +225,4 @@ public class Player : MonoBehaviour {
     {
         return airplane;
     }
-
 }
