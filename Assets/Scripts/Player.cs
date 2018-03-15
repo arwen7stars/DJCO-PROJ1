@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     public Arrow arrow;
     public GameObject airplane;
-    public GameObject opponent;
 
     private const float INITIAL_SPEED = 5.0f;
 
@@ -19,6 +18,7 @@ public class Player : MonoBehaviour {
     private Collider2D playerCollider;
     private bool hasAirplane = true;
     private bool running = false;
+    private bool backwards = false;
     private bool finishingPosition = false;
 
     private Rigidbody2D airplaneRB;
@@ -46,9 +46,6 @@ public class Player : MonoBehaviour {
         
         if (TrackTargets.gameStart)
         {
-            //playerRB.angularVelocity = 0;
-            //playerRB.velocity = Vector2.zero;
-
             if (!FinishingLine.gameOver)
             {
                 CheckKey();
@@ -61,10 +58,6 @@ public class Player : MonoBehaviour {
                 else
                 {
                     catchAirplane();
-                }
-
-                if (playerCollider.IsTouching(opponent.GetComponent<Collider2D>()))
-                {
                 }
             }
             else
@@ -132,11 +125,14 @@ public class Player : MonoBehaviour {
 
             if (Input.GetKey(down) && !hasAirplane)
             {
+                running = true;
+                backwards = true;
                 playerAnimator.SetBool("RunToggle", true);
                 playerRB.MovePosition(transform.position - moveSpeed * transform.up * Time.deltaTime);
             }
             else
             {
+                backwards = false;
                 if (running && !Input.GetKey(up))
                 {
                     playerAnimator.SetBool("RunToggle", false);
@@ -224,5 +220,15 @@ public class Player : MonoBehaviour {
     public GameObject getAirplane()
     {
         return airplane;
+    }
+
+    public bool getBackwards()
+    {
+        return backwards;
+    }
+
+    public bool getRunning()
+    {
+        return running;
     }
 }
