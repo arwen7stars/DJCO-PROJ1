@@ -6,12 +6,12 @@ public class Player : MonoBehaviour {
     public Arrow arrow;
     public GameObject airplane;
 
-    private const float INITIAL_SPEED = 5.0f;
+    private const float INITIAL_SPEED = 20.0f;
 
     private float moveSpeed = INITIAL_SPEED;
-    private float maxSpeed = 20.0f;
+    private float maxSpeed = 200.0f;
     private float acceleration = 5.0f;
-    private float turnRate = 250f;
+    private float turnRate = 350f;
 
     private Animator playerAnimator;
     private Rigidbody2D playerRB;
@@ -199,7 +199,7 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void throwAirplane(float angle)
+    public void throwAirplane(float angle, float force)
     {
         if (hasAirplane)
         {
@@ -208,7 +208,7 @@ public class Player : MonoBehaviour {
             airplaneRB.AddForce(new Vector2(
                 -Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * angle),
                 Mathf.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * angle)) *
-                airplane.GetComponent<Airplane>().getStartVelocity(),
+                airplane.GetComponent<Airplane>().getStartVelocity() * force,
                 ForceMode2D.Impulse);
         }
     }
