@@ -33,10 +33,10 @@ public class PlayerInstructions : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         redPlayer = redPlayerObj.GetComponent<Player>();
-        redPlayerPunch = redPlayerObj.GetComponent<Punch>();
+        redPlayerPunch = redPlayerObj.transform.GetChild(1).GetComponent<Punch>();
 
         bluePlayer = bluePlayerObj.GetComponent<Player>();
-        bluePlayerPunch = bluePlayerObj.GetComponent<Punch>();
+        bluePlayerPunch = bluePlayerObj.transform.GetChild(1).GetComponent<Punch>();
 
         redPlayerText = redPlayerInstructions.GetComponent<Text>();
         bluePlayerText = bluePlayerInstructions.GetComponent<Text>();
@@ -65,7 +65,8 @@ public class PlayerInstructions : MonoBehaviour {
                 }
                 else if (bluePlayerPunch.getAbilityActivated())
                 {
-                    bluePlayerText.text = WAIT_COOLDOWN + (int)bluePlayerPunch.getCooldown() + " seconds";
+                    int cooldown = 1 + (int)bluePlayerPunch.getCooldown();
+                    bluePlayerText.text = WAIT_COOLDOWN + cooldown + " seconds";
                 }
                 else
                 {
@@ -86,7 +87,8 @@ public class PlayerInstructions : MonoBehaviour {
                 }
                 else if (redPlayerPunch.getAbilityActivated())
                 {
-                    redPlayerText.text = WAIT_COOLDOWN + (int)redPlayerPunch.getCooldown() + " seconds";
+                    int cooldown = 1 + (int)redPlayerPunch.getCooldown();
+                    redPlayerText.text = WAIT_COOLDOWN + cooldown + " seconds";
                 }
                 else
                 {

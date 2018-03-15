@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class Arrow : MonoBehaviour
@@ -77,7 +78,11 @@ public class Arrow : MonoBehaviour
         public override State next()
         {
             Player p = arrow.player.GetComponent<Player>();
-            p.throwAirplane(arrow.angle);
+
+            float force = float.Parse(Regex.Split(arrow.GetComponent<SpriteRenderer>().sprite.name, "_")[1]);
+
+            p.throwAirplane(arrow.angle, (float) (1 - force * 0.05));
+
             return new Idle(arrow);
         }
 
@@ -113,10 +118,10 @@ public class Arrow : MonoBehaviour
     public int Y_DIFF = 1;
 
     // abs value of rotation speed in angle/sec
-    public const int ROTATION_SPEED = 120;
+    public const int ROTATION_SPEED = 180;
 
     // max/min values for offset angle
-    public const int ANGLE_OFFSET_LIMIT = 30;
+    public const int ANGLE_OFFSET_LIMIT = 45;
 
     // the keybind to activate the arrow
     public const KeyCode ACTIVATE_KEY_P1 = KeyCode.Space;
