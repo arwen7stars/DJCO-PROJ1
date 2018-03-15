@@ -18,7 +18,6 @@ public class Punch : MonoBehaviour
     public GameObject kickSprite;
 
 	public GameObject player;
-    public Collider2D playerCollider;
 
 	public GameObject enemyPlayer;
 	private Rigidbody2D enemyPlayerRB;
@@ -27,15 +26,14 @@ public class Punch : MonoBehaviour
 
 	public GameObject enemyAirplane;
 	private Rigidbody2D enemyAirplaneRB;
-    private Collider2D enemyAirplaneCollider;
+    private Vector2 collisionAirplane = Vector2.zero;
+
     private bool canKickAirplane = false;
 
 	void Start () 
 	{
-        playerCollider = this.GetComponent<Collider2D>();
         enemyPlayerRB = enemyPlayer.GetComponent<Rigidbody2D>();
 		enemyAirplaneRB = enemyAirplane.GetComponent<Rigidbody2D>();
-        enemyAirplaneCollider = enemyAirplane.GetComponent<Collider2D>();
 
 		if (player.gameObject.name.Equals("Player1")) 
 		{
@@ -69,7 +67,7 @@ public class Punch : MonoBehaviour
                     kickPlayer();
                 }
 
-                if (playerCollider.IsTouching(enemyAirplaneCollider))
+                if (!collisionAirplane.Equals(Vector2.zero))
 				{
                     kickAirplane();
 				}
@@ -96,14 +94,20 @@ public class Punch : MonoBehaviour
 
     void checkForObjects()
     {
-        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, transform.up, 2f);
+        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, transform.up, 2.5f);
         collisionPlayer = Vector2.zero;
+        collisionAirplane = Vector2.zero;
 
         for (int i = 0; i < hit.Length; i++)
         {
             if (hit[i].collider.name.Equals(enemyPlayer.name))
             {
                 collisionPlayer = hit[i].point;
+            }
+
+            if (hit[i].collider.name.Equals(enemyAirplane.name))
+            {
+                collisionAirplane = hit[i].point;
             }
         }
 
@@ -116,7 +120,7 @@ public class Punch : MonoBehaviour
             canKickPlayer = false;
         }
 
-        if (playerCollider.IsTouching(enemyAirplaneCollider))
+        if (!collisionAirplane.Equals(Vector2.zero))
         {
             canKickAirplane = true;
         }

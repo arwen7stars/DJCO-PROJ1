@@ -86,7 +86,7 @@ public class PlayerInstructions : MonoBehaviour {
                 }
                 else if (redPlayerPunch.getAbilityActivated())
                 {
-                    redPlayerText.text = WAIT_COOLDOWN + redPlayerPunch.getCooldown() + " seconds";
+                    redPlayerText.text = WAIT_COOLDOWN + (int)redPlayerPunch.getCooldown() + " seconds";
                 }
                 else
                 {
