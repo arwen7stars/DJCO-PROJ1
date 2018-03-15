@@ -62,11 +62,10 @@ public class Punch : MonoBehaviour
 
     void kickPlayer()
     {
-        if (!collisionPlayer.Equals(Vector2.zero))
-        {
-            kickSprite.transform.position = new Vector3(collisionPlayer.x, collisionPlayer.y, transform.position.z);
-            kickSprite.SetActive(true);
-        }
+        collisionPlayer = this.transform.position;
+
+        kickSprite.transform.position = new Vector3(collisionPlayer.x, collisionPlayer.y, transform.position.z);
+        kickSprite.SetActive(true);
 
         enemyPlayerRB.AddForce(new Vector2(
         -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
@@ -78,11 +77,9 @@ public class Punch : MonoBehaviour
 
     void kickAirplane()
     {
-        if (!collisionAirplane.Equals(Vector2.zero))
-        {
-            kickSprite.transform.position = new Vector3(collisionAirplane.x, collisionAirplane.y, transform.position.z);
-            kickSprite.SetActive(true);
-        }
+        collisionAirplane = this.transform.position;
+        kickSprite.transform.position = new Vector3(collisionAirplane.x, collisionAirplane.y, transform.position.z);
+        kickSprite.SetActive(true);
 
         enemyAirplaneRB.AddForce(new Vector2(
         -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
@@ -96,14 +93,14 @@ public class Punch : MonoBehaviour
         {
             checkForObjects();
 
-            if (Input.GetKey(activateKey) && !abilityActivated)
+            if (Input.GetKeyDown(activateKey) && !abilityActivated)
             {
                 if (playerCollider.IsTouching(enemyPlayerCollider) && !player.GetComponent<Player>().getHasAirplane())
                 {
                     kickPlayer();
                 }
 
-                if (playerCollider.IsTouching(enemyAirplaneCollider))
+                if (playerCollider.IsTouching(enemyAirplaneCollider) && !enemyPlayer.GetComponent<Player>().getHasAirplane())
                 {
                     kickAirplane();
                 }
@@ -145,20 +142,6 @@ public class Punch : MonoBehaviour
         else
         {
             canKickAirplane = false;
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-
-        if (other.name.Equals(enemyPlayer.name))
-        {
-            collisionPlayer = other.transform.position;
-        }
-
-        if (other.name.Equals(enemyAirplane.name))
-        {
-            collisionAirplane = other.transform.position;
         }
     }
 
