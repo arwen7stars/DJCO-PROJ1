@@ -6,10 +6,10 @@ public class Player : MonoBehaviour {
     public Arrow arrow;
     public GameObject airplane;
 
-    private const float INITIAL_SPEED = 20.0f;
+    private const float INITIAL_SPEED = 15.0f;
 
     private float moveSpeed = INITIAL_SPEED;
-    private float maxSpeed = 200.0f;
+    private float maxSpeed = 100.0f;
     private float acceleration = 5.0f;
     private float turnRate = 350f;
 

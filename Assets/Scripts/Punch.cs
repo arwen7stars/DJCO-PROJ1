@@ -34,6 +34,7 @@ public class Punch : MonoBehaviour
 	void Start () 
 	{
         playerCollider = this.GetComponent<Collider2D>();
+
         enemyPlayerRB = enemyPlayer.GetComponent<Rigidbody2D>();
         enemyPlayerCollider = enemyPlayer.GetComponent<Collider2D>();
 		
@@ -97,7 +98,7 @@ public class Punch : MonoBehaviour
             
             if (Input.GetKey(activateKey) && !abilityActivated)
             {
-                if (playerCollider.IsTouching(enemyPlayerCollider))
+                if (playerCollider.IsTouching(enemyPlayerCollider) && !player.GetComponent<Player>().getHasAirplane())
                 {
                     kickPlayer();
                 }
@@ -128,7 +129,7 @@ public class Punch : MonoBehaviour
 
     void checkForObjects()
     {
-        if (playerCollider.IsTouching(enemyPlayerCollider) && !abilityActivated)
+        if (playerCollider.IsTouching(enemyPlayerCollider) && !abilityActivated && !player.GetComponent<Player>().getHasAirplane())
         {
             canKickPlayer = true;
         }
@@ -137,7 +138,7 @@ public class Punch : MonoBehaviour
             canKickPlayer = false;
         }
 
-        if (playerCollider.IsTouching(enemyAirplaneCollider) && !abilityActivated)
+        if (playerCollider.IsTouching(enemyAirplaneCollider) && !abilityActivated && !enemyPlayer.GetComponent<Player>().getHasAirplane())
         {
             canKickAirplane = true;
         }

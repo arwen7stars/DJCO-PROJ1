@@ -95,12 +95,12 @@ public class PlayerInstructions : MonoBehaviour {
                     redPlayerText.text = "";
                 }
             }
-        }
-        else
-        {
-            bluePlayerText.text = "";
-            redPlayerText.text = "";
-            this.GetComponent<Image>().enabled = false;
+            else
+            {
+                bluePlayerText.text = "";
+                redPlayerText.text = "";
+                this.GetComponent<Image>().enabled = false;
+            }
         }
 	}
 }
