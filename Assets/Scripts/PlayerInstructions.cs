@@ -33,10 +33,10 @@ public class PlayerInstructions : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         redPlayer = redPlayerObj.GetComponent<Player>();
-        redPlayerPunch = redPlayerObj.GetComponent<Punch>();
+        redPlayerPunch = redPlayerObj.transform.GetChild(1).GetComponent<Punch>();
 
         bluePlayer = bluePlayerObj.GetComponent<Player>();
-        bluePlayerPunch = bluePlayerObj.GetComponent<Punch>();
+        bluePlayerPunch = bluePlayerObj.transform.GetChild(1).GetComponent<Punch>();
 
         redPlayerText = redPlayerInstructions.GetComponent<Text>();
         bluePlayerText = bluePlayerInstructions.GetComponent<Text>();

@@ -141,7 +141,7 @@ public class Player : MonoBehaviour {
 
             if (Input.GetKey(right))
             {
-                playerRB.MoveRotation(playerRB.rotation - turnRate * Time.fixedDeltaTime);
+                playerRB.MoveRotation(playerRB.rotation - turnRate * Time.deltaTime);
 
                 if (moveSpeed > INITIAL_SPEED)
                 {
@@ -152,7 +152,7 @@ public class Player : MonoBehaviour {
 
             if (Input.GetKey(left))
             {
-                playerRB.MoveRotation(playerRB.rotation + turnRate * Time.fixedDeltaTime);
+                playerRB.MoveRotation(playerRB.rotation + turnRate * Time.deltaTime);
 
                 if (moveSpeed > INITIAL_SPEED)
                 {

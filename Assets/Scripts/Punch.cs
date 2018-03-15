@@ -15,14 +15,15 @@ public class Punch : MonoBehaviour
     private float cooldown = COOLDOWN_TIME;
     private bool abilityActivated = false;
 
-    public GameObject kickSprite;
+    //public GameObject kickSprite;
 
 	public GameObject player;
-    public Collider2D playerCollider;
+    private Collider2D playerCollider;
 
 	public GameObject enemyPlayer;
 	private Rigidbody2D enemyPlayerRB;
-    private Vector2 collisionPlayer = Vector2.zero;
+    private Collider2D enemyPlayerCollider;
+   // private Vector2 collisionPlayer = Vector2.zero;
     private bool canKickPlayer = false;
 
 	public GameObject enemyAirplane;
@@ -34,6 +35,7 @@ public class Punch : MonoBehaviour
 	{
         playerCollider = this.GetComponent<Collider2D>();
         enemyPlayerRB = enemyPlayer.GetComponent<Rigidbody2D>();
+        enemyPlayerCollider = enemyPlayer.GetComponent<Collider2D>();
 		enemyAirplaneRB = enemyAirplane.GetComponent<Rigidbody2D>();
         enemyAirplaneCollider = enemyAirplane.GetComponent<Collider2D>();
 
@@ -64,7 +66,7 @@ public class Punch : MonoBehaviour
             
             if (Input.GetKey(activateKey) && !abilityActivated)
             {
-                if (!collisionPlayer.Equals(Vector2.zero) && !enemyPlayer.GetComponent<Punch>().pushing)
+                if (/*!collisionPlayer.Equals(Vector2.zero) && !enemyPlayer.GetComponent<Punch>().pushing*/playerCollider.IsTouching(enemyPlayerCollider))
                 {
                     kickPlayer();
                 }
@@ -88,7 +90,7 @@ public class Punch : MonoBehaviour
 
             if (Input.GetKeyUp(activateKey))
             {
-                kickSprite.SetActive(false);
+                //kickSprite.SetActive(false);
                 pushing = false;
             }
         }
@@ -96,7 +98,7 @@ public class Punch : MonoBehaviour
 
     void checkForObjects()
     {
-        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, transform.up, 2f);
+        /*RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, transform.up, 2f);
         collisionPlayer = Vector2.zero;
 
         for (int i = 0; i < hit.Length; i++)
@@ -105,9 +107,9 @@ public class Punch : MonoBehaviour
             {
                 collisionPlayer = hit[i].point;
             }
-        }
+        }*/
 
-        if (!collisionPlayer.Equals(Vector2.zero))
+        if (/*!collisionPlayer.Equals(Vector2.zero)*/playerCollider.IsTouching(enemyPlayerCollider))
         {
             canKickPlayer = true;
         }
@@ -128,8 +130,8 @@ public class Punch : MonoBehaviour
 
     void kickPlayer()
     {
-        kickSprite.transform.position = new Vector3(collisionPlayer.x, collisionPlayer.y, transform.position.z);
-        kickSprite.SetActive(true);
+        /*kickSprite.transform.position = new Vector3(collisionPlayer.x, collisionPlayer.y, transform.position.z);
+        kickSprite.SetActive(true);*/
 
         enemyPlayerRB.AddForce(new Vector2(
         -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
