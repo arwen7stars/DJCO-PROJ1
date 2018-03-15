@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Punch : MonoBehaviour 
+public class Punch : MonoBehaviour
 {
-	private const KeyCode ACTIVATE_KEY_P1 = KeyCode.Space;
+    private const KeyCode ACTIVATE_KEY_P1 = KeyCode.Space;
     private const KeyCode ACTIVATE_KEY_P2 = KeyCode.KeypadEnter;
     private const float COOLDOWN_TIME = 3.0f;
-	private KeyCode activateKey;
+    private KeyCode activateKey;
 
     public int force;
     private float cooldown = COOLDOWN_TIME;
@@ -15,50 +15,50 @@ public class Punch : MonoBehaviour
 
     public GameObject kickSprite;
 
-	public GameObject player;
+    public GameObject player;
     private Collider2D playerCollider;
 
-	public GameObject enemyPlayer;
-	private Rigidbody2D enemyPlayerRB;
+    public GameObject enemyPlayer;
+    private Rigidbody2D enemyPlayerRB;
     private Collider2D enemyPlayerCollider;
     private Vector2 collisionPlayer = Vector2.zero;
     private bool canKickPlayer = false;
 
-	public GameObject enemyAirplane;
-	private Rigidbody2D enemyAirplaneRB;
-	private Collider2D enemyAirplaneCollider;
+    public GameObject enemyAirplane;
+    private Rigidbody2D enemyAirplaneRB;
+    private Collider2D enemyAirplaneCollider;
     private Vector2 collisionAirplane = Vector2.zero;
 
     private bool canKickAirplane = false;
 
-	void Start () 
-	{
+    void Start()
+    {
         playerCollider = this.GetComponent<Collider2D>();
 
         enemyPlayerRB = enemyPlayer.GetComponent<Rigidbody2D>();
         enemyPlayerCollider = enemyPlayer.GetComponent<Collider2D>();
-		
-		enemyAirplaneRB = enemyAirplane.GetComponent<Rigidbody2D>();
-		enemyAirplaneCollider = enemyAirplane.GetComponent<Collider2D>();
 
-		if (player.gameObject.name.Equals("Player1")) 
-		{
+        enemyAirplaneRB = enemyAirplane.GetComponent<Rigidbody2D>();
+        enemyAirplaneCollider = enemyAirplane.GetComponent<Collider2D>();
+
+        if (player.gameObject.name.Equals("Player1"))
+        {
             activateKey = ACTIVATE_KEY_P1;
         }
         else
         {
             activateKey = ACTIVATE_KEY_P2;
-        }	
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		if (!FinishingLine.gameOver)
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!FinishingLine.gameOver)
         {
             processInput();
-		}
-	}
+        }
+    }
 
     void kickPlayer()
     {
@@ -83,19 +83,19 @@ public class Punch : MonoBehaviour
             kickSprite.transform.position = new Vector3(collisionAirplane.x, collisionAirplane.y, transform.position.z);
             kickSprite.SetActive(true);
         }
-        
+
         enemyAirplaneRB.AddForce(new Vector2(
         -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
         Mathf.Cos(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad)) *
         force * 5, ForceMode2D.Impulse);
         abilityActivated = true;
     }
-	void processInput()
+    void processInput()
     {
         if (TrackTargets.gameStart)
         {
             checkForObjects();
-            
+
             if (Input.GetKey(activateKey) && !abilityActivated)
             {
                 if (playerCollider.IsTouching(enemyPlayerCollider) && !player.GetComponent<Player>().getHasAirplane())
@@ -104,9 +104,9 @@ public class Punch : MonoBehaviour
                 }
 
                 if (playerCollider.IsTouching(enemyAirplaneCollider))
-				{
+                {
                     kickAirplane();
-				}
+                }
             }
 
             if (abilityActivated)
