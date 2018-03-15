@@ -38,6 +38,9 @@ public class Player : MonoBehaviour {
         playerRB = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         Physics2D.IgnoreCollision(playerCollider, airplane.GetComponent<PolygonCollider2D>(), true);
+
+        airplane.transform.position = new Vector3(transform.GetChild(2).position.x, transform.GetChild(2).position.y, transform.position.z);
+        airplane.transform.rotation = transform.rotation;
     }
 
     // Update is called once per frame
@@ -52,7 +55,7 @@ public class Player : MonoBehaviour {
 
                 if (hasAirplane)
                 {
-                    airplane.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
+                    airplane.transform.position = new Vector3(transform.GetChild(2).position.x, transform.GetChild(2).position.y, transform.position.z);
                     airplane.transform.rotation = transform.rotation;
                 }
                 else
@@ -75,7 +78,7 @@ public class Player : MonoBehaviour {
 
                     if (hasAirplane)
                     {
-                        airplane.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
+                        airplane.transform.position = new Vector3(transform.GetChild(2).position.x, transform.GetChild(2).position.y, transform.position.z);
                         airplane.transform.rotation = transform.rotation;
                     }
                 }
