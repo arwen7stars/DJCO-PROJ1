@@ -65,7 +65,8 @@ public class PlayerInstructions : MonoBehaviour {
                 }
                 else if (bluePlayerPunch.getAbilityActivated())
                 {
-                    bluePlayerText.text = WAIT_COOLDOWN + (int)bluePlayerPunch.getCooldown() + " seconds";
+                    int cooldown = 1 + (int)bluePlayerPunch.getCooldown();
+                    bluePlayerText.text = WAIT_COOLDOWN + cooldown + " seconds";
                 }
                 else
                 {
@@ -86,7 +87,8 @@ public class PlayerInstructions : MonoBehaviour {
                 }
                 else if (redPlayerPunch.getAbilityActivated())
                 {
-                    redPlayerText.text = WAIT_COOLDOWN + redPlayerPunch.getCooldown() + " seconds";
+                    int cooldown = 1 + (int)redPlayerPunch.getCooldown();
+                    redPlayerText.text = WAIT_COOLDOWN + cooldown + " seconds";
                 }
                 else
                 {

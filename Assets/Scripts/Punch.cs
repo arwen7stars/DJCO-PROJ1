@@ -10,12 +10,10 @@ public class Punch : MonoBehaviour
 	private KeyCode activateKey;
 
     public int force;
-    private bool pushing = false;
-
     private float cooldown = COOLDOWN_TIME;
     private bool abilityActivated = false;
 
-    //public GameObject kickSprite;
+    public GameObject kickSprite;
 
 	public GameObject player;
     private Collider2D playerCollider;
@@ -23,12 +21,14 @@ public class Punch : MonoBehaviour
 	public GameObject enemyPlayer;
 	private Rigidbody2D enemyPlayerRB;
     private Collider2D enemyPlayerCollider;
-   // private Vector2 collisionPlayer = Vector2.zero;
+    private Vector2 collisionPlayer = Vector2.zero;
     private bool canKickPlayer = false;
 
 	public GameObject enemyAirplane;
 	private Rigidbody2D enemyAirplaneRB;
-    private Collider2D enemyAirplaneCollider;
+	private Collider2D enemyAirplaneCollider;
+    private Vector2 collisionAirplane = Vector2.zero;
+
     private bool canKickAirplane = false;
 
 	void Start () 
@@ -36,8 +36,9 @@ public class Punch : MonoBehaviour
         playerCollider = this.GetComponent<Collider2D>();
         enemyPlayerRB = enemyPlayer.GetComponent<Rigidbody2D>();
         enemyPlayerCollider = enemyPlayer.GetComponent<Collider2D>();
+		
 		enemyAirplaneRB = enemyAirplane.GetComponent<Rigidbody2D>();
-        enemyAirplaneCollider = enemyAirplane.GetComponent<Collider2D>();
+		enemyAirplaneCollider = enemyAirplane.GetComponent<Collider2D>();
 
 		if (player.gameObject.name.Equals("Player1")) 
 		{
@@ -58,6 +59,36 @@ public class Punch : MonoBehaviour
 		}
 	}
 
+    void kickPlayer()
+    {
+        if (!collisionPlayer.Equals(Vector2.zero))
+        {
+            kickSprite.transform.position = new Vector3(collisionPlayer.x, collisionPlayer.y, transform.position.z);
+            kickSprite.SetActive(true);
+        }
+
+        enemyPlayerRB.AddForce(new Vector2(
+        -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
+        Mathf.Cos(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad)) *
+        force * 1000, ForceMode2D.Impulse);
+
+        abilityActivated = true;
+    }
+
+    void kickAirplane()
+    {
+        if (!collisionAirplane.Equals(Vector2.zero))
+        {
+            kickSprite.transform.position = new Vector3(collisionAirplane.x, collisionAirplane.y, transform.position.z);
+            kickSprite.SetActive(true);
+        }
+        
+        enemyAirplaneRB.AddForce(new Vector2(
+        -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
+        Mathf.Cos(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad)) *
+        force * 5, ForceMode2D.Impulse);
+        abilityActivated = true;
+    }
 	void processInput()
     {
         if (TrackTargets.gameStart)
@@ -66,7 +97,7 @@ public class Punch : MonoBehaviour
             
             if (Input.GetKey(activateKey) && !abilityActivated)
             {
-                if (/*!collisionPlayer.Equals(Vector2.zero) && !enemyPlayer.GetComponent<Punch>().pushing*/playerCollider.IsTouching(enemyPlayerCollider))
+                if (playerCollider.IsTouching(enemyPlayerCollider))
                 {
                     kickPlayer();
                 }
@@ -90,26 +121,14 @@ public class Punch : MonoBehaviour
 
             if (Input.GetKeyUp(activateKey))
             {
-                //kickSprite.SetActive(false);
-                pushing = false;
+                kickSprite.SetActive(false);
             }
         }
     }
 
     void checkForObjects()
     {
-        /*RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, transform.up, 2f);
-        collisionPlayer = Vector2.zero;
-
-        for (int i = 0; i < hit.Length; i++)
-        {
-            if (hit[i].collider.name.Equals(enemyPlayer.name))
-            {
-                collisionPlayer = hit[i].point;
-            }
-        }*/
-
-        if (/*!collisionPlayer.Equals(Vector2.zero)*/playerCollider.IsTouching(enemyPlayerCollider))
+        if (playerCollider.IsTouching(enemyPlayerCollider) && !abilityActivated)
         {
             canKickPlayer = true;
         }
@@ -118,7 +137,7 @@ public class Punch : MonoBehaviour
             canKickPlayer = false;
         }
 
-        if (playerCollider.IsTouching(enemyAirplaneCollider))
+        if (playerCollider.IsTouching(enemyAirplaneCollider) && !abilityActivated)
         {
             canKickAirplane = true;
         }
@@ -128,27 +147,18 @@ public class Punch : MonoBehaviour
         }
     }
 
-    void kickPlayer()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        /*kickSprite.transform.position = new Vector3(collisionPlayer.x, collisionPlayer.y, transform.position.z);
-        kickSprite.SetActive(true);*/
 
-        enemyPlayerRB.AddForce(new Vector2(
-        -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
-        Mathf.Cos(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad)) *
-        force * 1000, ForceMode2D.Impulse);
+        if (other.name.Equals(enemyPlayer.name))
+        {
+            collisionPlayer = other.transform.position;
+        }
 
-        pushing = true;
-        abilityActivated = true;
-    }
-
-    void kickAirplane()
-    {
-        enemyAirplaneRB.AddForce(new Vector2(
-        -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
-        Mathf.Cos(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad)) *
-        force * 5, ForceMode2D.Impulse);
-        abilityActivated = true;
+        if (other.name.Equals(enemyAirplane.name))
+        {
+            collisionAirplane = other.transform.position;
+        }
     }
 
     public bool getCanKickPlayer()
