@@ -115,7 +115,7 @@ public class Arrow : MonoBehaviour
 
 
     // the diff between the player and this object's y position
-    public int Y_DIFF = 1;
+    public const float Y_DIFF = 0.8f;
 
     // abs value of rotation speed in angle/sec
     public const int ROTATION_SPEED = 180;
