@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Airplane : MonoBehaviour
 {
-    private float START_VELOCITY = 80f;
     private float STOP_VELOCITY = 5f;
     private bool inFlight = false;
     private Rigidbody2D airplaneRB;

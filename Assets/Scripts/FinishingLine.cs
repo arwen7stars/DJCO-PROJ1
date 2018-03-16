@@ -75,7 +75,7 @@ public class FinishingLine : MonoBehaviour {
 
             if (!gameTie)
             {
-                if (winner.Equals(playerOne))
+                if (winner.Equals(playerOne.name))
                 {
                     showPlayerFaces(playerOne.transform, playerTwo.transform);
                 }
