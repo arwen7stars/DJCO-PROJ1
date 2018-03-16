@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Punch : MonoBehaviour
 {
-    private const KeyCode ACTIVATE_KEY_P1 = KeyCode.Space;
-    private const KeyCode ACTIVATE_KEY_P2 = KeyCode.KeypadEnter;
+    private const KeyCode ACTIVATE_KEY_P1 = KeyCode.E;
+    private const KeyCode ACTIVATE_KEY_P2 = KeyCode.RightShift;
     private const float COOLDOWN_TIME = 3.0f;
     private KeyCode activateKey;
 

@@ -22,11 +22,11 @@ public class PlayerInstructions : MonoBehaviour {
     private string RED_THROW_AIRPLANE_MSG = "Press SPACE twice to throw the airplane!";
     private string BLUE_THROW_AIRPLANE_MSG = "Press kENTER twice to throw the airplane!";
 
-    private string RED_KICK_PLAYER_MSG = "Press SPACE to kick player!";
-    private string BLUE_KICK_PLAYER_MSG = "Press kENTER to kick player!";
+    private string RED_KICK_PLAYER_MSG = "Press E to kick player!";
+    private string BLUE_KICK_PLAYER_MSG = "Press Shift to kick player!";
 
-    private string RED_KICK_AIRPLANE_MSG = "Press SPACE to kick opponent's airplane!";
-    private string BLUE_KICK_AIRPLANE_MSG = "Press kENTER to kick opponent's airplane!";
+    private string RED_KICK_AIRPLANE_MSG = "Press E to kick opponent's airplane!";
+    private string BLUE_KICK_AIRPLANE_MSG = "Press Shift to kick opponent's airplane!";
 
     private string WAIT_COOLDOWN = "Abilities on cooldown... Wait ";
 

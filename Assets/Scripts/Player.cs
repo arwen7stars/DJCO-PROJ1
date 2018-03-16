@@ -199,6 +199,10 @@ public class Player : MonoBehaviour {
             Vector3 target = airplane.transform.position;
             float step = moveSpeed / 2 * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, target, step);
+
+            Vector3 dir = target - transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(-90 + angle, Vector3.forward);
         }
     }
 
