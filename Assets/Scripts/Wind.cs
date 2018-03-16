@@ -7,7 +7,8 @@ public class Wind : MonoBehaviour
 	public int x;
 	public int y;
 	public int force;
-    public int objects = 0;
+    private int objects = 0;
+    private bool musicPlaying = false;
 
 	// Use this for initialization
 	void Start () {
@@ -25,7 +26,7 @@ public class Wind : MonoBehaviour
         if(other.gameObject.name.Contains("Player"))
 		{
 			Rigidbody2D rigidbody = other.gameObject.GetComponent<Rigidbody2D>();
-			rigidbody.AddForce(new Vector2(x, y) * force * 20, ForceMode2D.Force);
+			rigidbody.AddForce(new Vector2(x, y) * force * 50, ForceMode2D.Force);
 		}
 		else if(other.gameObject.name.Contains("Airplane"))
 		{
@@ -37,16 +38,20 @@ public class Wind : MonoBehaviour
     void OnTriggerEnter2D()
     {
         objects++;
-        GetComponent<AudioSource>().Play();
+        if (!musicPlaying)
+        {
+            GetComponent<AudioSource>().Play();
+            musicPlaying = true;
+        }
     }
 
     void OnTriggerExit2D()
     {
         objects--;
-
         if (objects.Equals(0))
         {
             GetComponent<AudioSource>().Stop();
+            musicPlaying = false;
         }
     }
 }

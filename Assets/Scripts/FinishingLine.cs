@@ -16,6 +16,9 @@ public class FinishingLine : MonoBehaviour {
     public GameObject happy;
     public GameObject sad;
 
+    public GameObject countdown;
+    private bool musicPlaying = false;
+
     private Collider2D airplaneOneCollider;
     private Collider2D airplaneTwoCollider;
     private Collider2D finishLineCollider;
@@ -25,7 +28,8 @@ public class FinishingLine : MonoBehaviour {
     private float opacitySad = 0f;
 
     public static bool gameOver = false;
-    public static GameObject winner = null;
+    public static bool gameTie = false;
+    public static string winner = "";
 
 	// Use this for initialization
 	void Start () {
@@ -39,35 +43,56 @@ public class FinishingLine : MonoBehaviour {
         if(!gameOver) {
             if (airplaneOneCollider.IsTouching(finishLineCollider) && airplaneTwoCollider.IsTouching(finishLineCollider))
             {
+                gameTie = true;
                 tie.SetActive(true);
                 gameOver = true;
             }
 
-            if (airplaneOneCollider.IsTouching(finishLineCollider))
+            if (!gameTie)
             {
-                winPlayerOne.SetActive(true);
-                winner = playerOne;
-                gameOver = true;
-            } else if (airplaneTwoCollider.IsTouching(finishLineCollider)){
-                winPlayerTwo.SetActive(true);
-                winner = playerTwo;
-                gameOver = true;
+                if (airplaneOneCollider.IsTouching(finishLineCollider))
+                {
+                    winPlayerOne.SetActive(true);
+                    winner = playerOne.name;
+                    gameOver = true;
+                }
+                else if (airplaneTwoCollider.IsTouching(finishLineCollider))
+                {
+                    winPlayerTwo.SetActive(true);
+                    winner = playerTwo.name;
+                    gameOver = true;
+                }
             }
         }
         else
         {
-            if (winner.Equals(playerOne))
+            if (!musicPlaying)
             {
-                showPlayerFaces(playerOne.transform, playerTwo.transform);
+                countdown.GetComponent<AudioSource>().Stop();
+                GetComponent<AudioSource>().Play();
+                musicPlaying = true;
+            }
+
+            if (!gameTie)
+            {
+                if (winner.Equals(playerOne))
+                {
+                    showPlayerFaces(playerOne.transform, playerTwo.transform);
+                }
+                else
+                {
+                    showPlayerFaces(playerTwo.transform, playerOne.transform);
+                }
             }
             else
             {
-                showPlayerFaces(playerTwo.transform, playerOne.transform);
+                showHappyFace(playerOne.transform);
+                showHappyFace(playerTwo.transform);
             }
         }
 	}
 
-    void showPlayerFaces(Transform winner, Transform loser)
+    void showHappyFace(Transform winner)
     {
         if (opacityHappy < 1f)
         {
@@ -76,14 +101,22 @@ public class FinishingLine : MonoBehaviour {
         }
 
         happy.transform.position = new Vector3(winner.position.x, winner.position.y + 3.5f, winner.position.z - 1f);
+    }
 
+    void showSadFace(Transform loser)
+    {
         if (opacitySad < 1f)
         {
             opacitySad += transitionSpeed * Time.deltaTime;
             showGradually(sad, opacitySad);
         }
 
-        sad.transform.position = new Vector3(loser.position.x, loser.position.y + 3.5f, loser.position.z - 1f);    
+        sad.transform.position = new Vector3(loser.position.x, loser.position.y + 3.5f, loser.position.z - 1f);
+    }
+    void showPlayerFaces(Transform winner, Transform loser)
+    {
+        showHappyFace(winner);
+        showSadFace(loser);
     }
 
     public static void showGradually(GameObject obj, float opacity)

@@ -17,6 +17,7 @@ public class Countdown : MonoBehaviour {
     private float opacityGo;
 
     private float goTime = 3.0f;
+    private bool musicPlaying = false;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +37,12 @@ public class Countdown : MonoBehaviour {
                     one.SetActive(false);
                     opacityGo += transitionSpeed * Time.deltaTime;
                     showGradually(go, opacityGo);
+                }
+
+                if (!musicPlaying)
+                {
+                    GetComponent<AudioSource>().Play();
+                    musicPlaying = true;
                 }
 
                 goTime -= Time.deltaTime;

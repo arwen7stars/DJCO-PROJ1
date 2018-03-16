@@ -65,7 +65,9 @@ public class Player : MonoBehaviour {
             }
             else
             {
-                if (FinishingLine.winner.name.Equals(gameObject.name) && !finishingPosition)
+                
+                
+                if ((FinishingLine.winner.Equals(gameObject.name) || FinishingLine.gameTie) && !finishingPosition)
                 {
                     runTowardsAirplane();
                 }
