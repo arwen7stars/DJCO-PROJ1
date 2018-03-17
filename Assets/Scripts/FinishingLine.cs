@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 public class FinishingLine : MonoBehaviour {
     public GameObject finishLine;
@@ -104,7 +103,6 @@ public class FinishingLine : MonoBehaviour {
                 if (Input.GetKey(KeyCode.Return))
                 {
                     Application.Quit();
-                    EditorApplication.isPlaying = false;
                 }
             }
 

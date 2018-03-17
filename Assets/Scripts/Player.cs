@@ -213,6 +213,7 @@ public class Player : MonoBehaviour {
         if (hasAirplane)
         {
             hasAirplane = false;
+            airplane.GetComponent<AudioSource>().Play();
             airplane.GetComponent<Airplane>().setInFlight(true);
             airplaneRB.AddForce(new Vector2(
                 -Mathf.Sin(Mathf.Deg2Rad * transform.rotation.eulerAngles.z + Mathf.Deg2Rad * angle),

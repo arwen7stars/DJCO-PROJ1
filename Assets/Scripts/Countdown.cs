@@ -16,7 +16,7 @@ public class Countdown : MonoBehaviour {
     private float opacityThree;
     private float opacityGo;
 
-    private float goTime = 3.0f;
+    private float goTime = 1.0f;
     private bool musicPlaying = false;
 
 	// Use this for initialization
