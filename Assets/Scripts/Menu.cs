@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour {
     public GameObject menuPanel;
     public GameObject menu;
+
     public static bool stopGame = false;
+    private const float FULL_OPACITY = 255f;
+
 	// Use this for initialization
 	void Start () {
         Color c = menu.GetComponent<Image>().color;
-        menu.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 255);
+        menu.GetComponent<Image>().color = new Color(c.r, c.g, c.b, FULL_OPACITY);
 	}
 	
 	// Update is called once per frame
@@ -23,44 +26,22 @@ public class Menu : MonoBehaviour {
                 {
                     stopGame = true;
                     menuPanel.SetActive(true);
-                    StopAllAnimations();
                     Time.timeScale = 0;
                 }
                 else
                 {
                     stopGame = false;
                     menuPanel.SetActive(false);
-                    StartAllAnimations();
                     Time.timeScale = 1;
                 }
             }
         }
 	}
 
-    void StopAllAnimations()
-    {
-        Animator[] animatorsInTheScene = FindObjectsOfType(typeof(Animator)) as Animator[];
-        foreach (Animator animatorItem in animatorsInTheScene)
-        {
-            animatorItem.enabled = false;
-        }
-    }
-
-    void StartAllAnimations()
-    {
-        Animator[] animatorsInTheScene = FindObjectsOfType(typeof(Animator)) as Animator[];
-        foreach (Animator animatorItem in animatorsInTheScene)
-        {
-            animatorItem.enabled = true;
-        }
-    }
-
-
     public void Continue()
     {
         stopGame = false;
         menuPanel.SetActive(false);
-        StartAllAnimations();
         Time.timeScale = 1;
     }
 

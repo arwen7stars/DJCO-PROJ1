@@ -6,7 +6,7 @@ public class Player : MonoBehaviour {
     public Arrow arrow;
     public GameObject airplane;
 
-    private const float INITIAL_SPEED = 15.0f;
+    private const float INITIAL_SPEED = 20.0f;
 
     private float moveSpeed = INITIAL_SPEED;
     private float maxSpeed = 100.0f;
@@ -18,7 +18,6 @@ public class Player : MonoBehaviour {
     private Collider2D playerCollider;
     private bool hasAirplane = true;
     private bool running = false;
-    private bool backwards = false;
     private bool finishingPosition = false;
 
     private Rigidbody2D airplaneRB;
@@ -68,8 +67,6 @@ public class Player : MonoBehaviour {
             }
             else
             {
-                
-                
                 if ((FinishingLine.winner.Equals(gameObject.name) || FinishingLine.gameTie) && !finishingPosition)
                 {
                     runTowardsAirplane();
@@ -134,13 +131,11 @@ public class Player : MonoBehaviour {
             if (Input.GetKey(down) && !hasAirplane)
             {
                 running = true;
-                backwards = true;
                 playerAnimator.SetBool("RunToggle", true);
                 playerRB.MovePosition(transform.position - moveSpeed * transform.up * Time.deltaTime);
             }
             else
             {
-                backwards = false;
                 if (running && !Input.GetKey(up))
                 {
                     playerAnimator.SetBool("RunToggle", false);
@@ -233,15 +228,5 @@ public class Player : MonoBehaviour {
     public GameObject getAirplane()
     {
         return airplane;
-    }
-
-    public bool getBackwards()
-    {
-        return backwards;
-    }
-
-    public bool getRunning()
-    {
-        return running;
     }
 }
