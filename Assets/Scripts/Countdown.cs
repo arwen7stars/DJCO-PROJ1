@@ -82,7 +82,7 @@ public class Countdown : MonoBehaviour {
         }
 	}
 
-    public void showGradually(GameObject obj, float opacity)
+    public static void showGradually(GameObject obj, float opacity)
     {
         Image img = obj.GetComponent<Image>();
         Color c = img.color;

@@ -65,7 +65,8 @@ public class Punch : MonoBehaviour
         collisionPlayer = this.transform.position;
 
         kickSprite.transform.position = new Vector3(collisionPlayer.x, collisionPlayer.y, transform.position.z);
-        kickSprite.SetActive(true);
+        kickSprite.GetComponent<SpriteRenderer>().enabled = true;
+        kickSprite.GetComponent<AudioSource>().Play();
 
         enemyPlayerRB.AddForce(new Vector2(
         -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
@@ -79,7 +80,8 @@ public class Punch : MonoBehaviour
     {
         collisionAirplane = this.transform.position;
         kickSprite.transform.position = new Vector3(collisionAirplane.x, collisionAirplane.y, transform.position.z);
-        kickSprite.SetActive(true);
+        kickSprite.GetComponent<SpriteRenderer>().enabled = true;
+        kickSprite.GetComponent<AudioSource>().Play();
 
         enemyAirplaneRB.AddForce(new Vector2(
         -Mathf.Sin(Mathf.Deg2Rad * player.transform.rotation.eulerAngles.z + Mathf.Deg2Rad),
@@ -119,7 +121,8 @@ public class Punch : MonoBehaviour
 
             if (Input.GetKeyUp(activateKey))
             {
-                kickSprite.SetActive(false);
+                kickSprite.GetComponent<SpriteRenderer>().enabled = false;
+
             }
         }
     }

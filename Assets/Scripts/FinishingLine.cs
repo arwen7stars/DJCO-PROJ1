@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class FinishingLine : MonoBehaviour {
     public GameObject finishLine;
@@ -16,6 +17,9 @@ public class FinishingLine : MonoBehaviour {
     public GameObject happy;
     public GameObject sad;
 
+    public GameObject panel;
+    public GameObject textExitGame;
+
     public GameObject countdown;
     private bool musicPlaying = false;
 
@@ -23,9 +27,8 @@ public class FinishingLine : MonoBehaviour {
     private Collider2D airplaneTwoCollider;
     private Collider2D finishLineCollider;
 
-    public float transitionSpeed = 0.01f;
-    private float opacityHappy = 0f;
-    private float opacitySad = 0f;
+    private float transitionSpeed = 3f;
+    private float opacityExitGame = 0f;
 
     public static bool gameOver = false;
     public static bool gameTie = false;
@@ -36,6 +39,9 @@ public class FinishingLine : MonoBehaviour {
         airplaneOneCollider = playerOne.GetComponent<Player>().getAirplane().GetComponent<Collider2D>();
         airplaneTwoCollider = playerTwo.GetComponent<Player>().getAirplane().GetComponent<Collider2D>();
         finishLineCollider = finishLine.GetComponent<Collider2D>();
+        Color c = textExitGame.GetComponent<Text>().color;
+
+        textExitGame.GetComponent<Text>().color = new Color(c.r, c.g, c.b, 0);
 	}
 	
 	// Update is called once per frame
@@ -73,6 +79,35 @@ public class FinishingLine : MonoBehaviour {
                 musicPlaying = true;
             }
 
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                if (winPlayerOne.activeSelf)
+                {
+                    winPlayerOne.SetActive(false);
+                }
+                else if (winPlayerTwo.activeSelf)
+                {
+                    winPlayerTwo.SetActive(false);
+                }
+                else if (tie.activeSelf)
+                {
+                    tie.SetActive(false);
+                }
+
+                if (opacityExitGame < 1f)
+                {
+                    Countdown.showGradually(panel, opacityExitGame);
+                    showTextGradually(textExitGame, opacityExitGame);
+                    opacityExitGame += transitionSpeed * Time.deltaTime;
+                }
+
+                if (Input.GetKey(KeyCode.Return))
+                {
+                    Application.Quit();
+                    EditorApplication.isPlaying = false;
+                }
+            }
+
             if (!gameTie)
             {
                 if (winner.Equals(playerOne.name))
@@ -92,37 +127,29 @@ public class FinishingLine : MonoBehaviour {
         }
 	}
 
+    void showTextGradually(GameObject obj, float opacity)
+    {
+        Text txt = obj.GetComponent<Text>();
+        Color c = txt.color;
+
+        txt.color = new Color(c.r, c.g, c.b, opacity);
+        obj.SetActive(true);
+    }
+
     void showHappyFace(Transform winner)
     {
-        if (opacityHappy < 1f)
-        {
-            opacityHappy += transitionSpeed * Time.deltaTime;
-            showGradually(happy, opacityHappy);
-        }
-
+        happy.SetActive(true);
         happy.transform.position = new Vector3(winner.position.x, winner.position.y + 3.5f, winner.position.z - 1f);
     }
 
     void showSadFace(Transform loser)
     {
-        if (opacitySad < 1f)
-        {
-            opacitySad += transitionSpeed * Time.deltaTime;
-            showGradually(sad, opacitySad);
-        }
-
+        sad.SetActive(true);
         sad.transform.position = new Vector3(loser.position.x, loser.position.y + 3.5f, loser.position.z - 1f);
     }
     void showPlayerFaces(Transform winner, Transform loser)
     {
         showHappyFace(winner);
         showSadFace(loser);
-    }
-
-    public static void showGradually(GameObject obj, float opacity)
-    {
-        Color c = obj.GetComponent<SpriteRenderer>().color;
-        c = new Color(c.r, c.g, c.b, opacity);
-        obj.SetActive(true);
     }
 }
