@@ -17,26 +17,30 @@ public class Teacher : MonoBehaviour {
     void Update()
     {
 
-        if(currentPoint < points.Length) // this is to check if it's less than the length of the points
+        if (!Menu.stopGame)
         {
-            float dist = Vector3.Distance(transform.position, points[currentPoint].position);
+            if (currentPoint < points.Length) // this is to check if it's less than the length of the points
+            {
+                float dist = Vector3.Distance(transform.position, points[currentPoint].position);
 
-            if(dist < 1f) {
-                currentPoint++;
-                //transform.Rotate(Vector3.forward, 180);
+                if (dist < 1f)
+                {
+                    currentPoint++;
+                    //transform.Rotate(Vector3.forward, 180);
+                }
+                else
+                {
+                    Vector3 dir = points[currentPoint].position - transform.position;
+                    float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.AngleAxis(-90 + angle, Vector3.forward);
+
+                    transform.position = Vector3.Lerp(this.transform.position, points[currentPoint].position, Time.deltaTime * speed);
+                }
             }
             else
             {
-                Vector3 dir = points[currentPoint].position - transform.position;
-                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(-90+angle, Vector3.forward);
-
-                transform.position = Vector3.Lerp(this.transform.position, points[currentPoint].position, Time.deltaTime * speed);
+                currentPoint = 0; //this is to loop it back to zero again
             }
-        }
-        else
-        {
-            currentPoint = 0; //this is to loop it back to zero again
         }
     }
 

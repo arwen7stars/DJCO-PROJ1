@@ -49,50 +49,59 @@ public class PlayerInstructions : MonoBehaviour {
         {
             if (!FinishingLine.gameOver)
             {
-                this.GetComponent<Image>().enabled = true;
+                if (!Menu.stopGame)
+                {
+                    this.GetComponent<Image>().enabled = true;
 
-                if (bluePlayer.getHasAirplane())
-                {
-                    bluePlayerText.text = BLUE_THROW_AIRPLANE_MSG;
-                }
-                else if (bluePlayerPunch.getCanKickPlayer())
-                {
-                    bluePlayerText.text = BLUE_KICK_PLAYER_MSG;
-                }
-                else if (bluePlayerPunch.getCanKickAirplane())
-                {
-                    bluePlayerText.text = BLUE_KICK_AIRPLANE_MSG;
-                }
-                else if (bluePlayerPunch.getAbilityActivated())
-                {
-                    int cooldown = 1 + (int)bluePlayerPunch.getCooldown();
-                    bluePlayerText.text = WAIT_COOLDOWN + cooldown + " seconds";
+                    if (bluePlayer.getHasAirplane())
+                    {
+                        bluePlayerText.text = BLUE_THROW_AIRPLANE_MSG;
+                    }
+                    else if (bluePlayerPunch.getCanKickPlayer())
+                    {
+                        bluePlayerText.text = BLUE_KICK_PLAYER_MSG;
+                    }
+                    else if (bluePlayerPunch.getCanKickAirplane())
+                    {
+                        bluePlayerText.text = BLUE_KICK_AIRPLANE_MSG;
+                    }
+                    else if (bluePlayerPunch.getAbilityActivated())
+                    {
+                        int cooldown = 1 + (int)bluePlayerPunch.getCooldown();
+                        bluePlayerText.text = WAIT_COOLDOWN + cooldown + " seconds";
+                    }
+                    else
+                    {
+                        bluePlayerText.text = "";
+                    }
+
+                    if (redPlayer.getHasAirplane())
+                    {
+                        redPlayerText.text = RED_THROW_AIRPLANE_MSG;
+                    }
+                    else if (redPlayerPunch.getCanKickPlayer())
+                    {
+                        redPlayerText.text = RED_KICK_PLAYER_MSG;
+                    }
+                    else if (redPlayerPunch.getCanKickAirplane())
+                    {
+                        redPlayerText.text = RED_KICK_AIRPLANE_MSG;
+                    }
+                    else if (redPlayerPunch.getAbilityActivated())
+                    {
+                        int cooldown = 1 + (int)redPlayerPunch.getCooldown();
+                        redPlayerText.text = WAIT_COOLDOWN + cooldown + " seconds";
+                    }
+                    else
+                    {
+                        redPlayerText.text = "";
+                    }
                 }
                 else
                 {
                     bluePlayerText.text = "";
-                }
-
-                if (redPlayer.getHasAirplane())
-                {
-                    redPlayerText.text = RED_THROW_AIRPLANE_MSG;
-                }
-                else if (redPlayerPunch.getCanKickPlayer())
-                {
-                    redPlayerText.text = RED_KICK_PLAYER_MSG;
-                }
-                else if (redPlayerPunch.getCanKickAirplane())
-                {
-                    redPlayerText.text = RED_KICK_AIRPLANE_MSG;
-                }
-                else if (redPlayerPunch.getAbilityActivated())
-                {
-                    int cooldown = 1 + (int)redPlayerPunch.getCooldown();
-                    redPlayerText.text = WAIT_COOLDOWN + cooldown + " seconds";
-                }
-                else
-                {
                     redPlayerText.text = "";
+                    this.GetComponent<Image>().enabled = false;
                 }
             }
             else

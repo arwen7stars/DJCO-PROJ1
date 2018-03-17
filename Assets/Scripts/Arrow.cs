@@ -180,30 +180,35 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
-        if (!FinishingLine.gameOver)
-        {
-            processInput();
-
-            // no need to update stuff if object isnt visible
-            if (!sRenderer.enabled)
+        if (TrackTargets.gameStart){
+            if (!FinishingLine.gameOver)
             {
-                return;
+                if (!Menu.stopGame)
+                {
+                    processInput();
+
+                    // no need to update stuff if object isnt visible
+                    if (!sRenderer.enabled)
+                    {
+                        return;
+                    }
+
+                    // update transform to match player's
+                    updateTransform();
+
+                    // update self
+                    state.update();
+
+                    // update transform with new values
+                    transform.Rotate(0, 0, angle);
+                }
             }
-
-            // update transform to match player's
-            updateTransform();
-
-            // update self
-            state.update();
-
-            // update transform with new values
-            transform.Rotate(0, 0, angle);
-        }
-        else
-        {
-            if (sRenderer.enabled)
+            else
             {
-                sRenderer.enabled = false;
+                if (sRenderer.enabled)
+                {
+                    sRenderer.enabled = false;
+                }
             }
         }
     }
@@ -211,13 +216,10 @@ public class Arrow : MonoBehaviour
 
     void processInput()
     {
-        if (TrackTargets.gameStart)
+        if (Input.GetKeyDown(activateKey))
         {
-            if (Input.GetKeyDown(activateKey))
-            {
-                // update current state
-                state = state.next();
-            }
+            // update current state
+            state = state.next();
         }
     }
 }

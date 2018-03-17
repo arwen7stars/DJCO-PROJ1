@@ -29,55 +29,60 @@ public class Countdown : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(TrackTargets.timeLeft <= 0) {
-            if (goTime > 0)
+        if (!Menu.stopGame)
+        {
+            if (TrackTargets.timeLeft <= 0)
             {
-                if (opacityGo < 1.0f)
+                if (goTime > 0)
                 {
-                    one.SetActive(false);
-                    opacityGo += transitionSpeed * Time.deltaTime;
-                    showGradually(go, opacityGo);
-                }
+                    if (opacityGo < 1.0f)
+                    {
+                        one.SetActive(false);
+                        opacityGo += transitionSpeed * Time.deltaTime;
+                        showGradually(go, opacityGo);
+                    }
 
-                if (!musicPlaying)
+                    if (!musicPlaying)
+                    {
+                        GetComponent<AudioSource>().Play();
+                        musicPlaying = true;
+                    }
+
+                    goTime -= Time.deltaTime;
+                }
+                else
                 {
-                    GetComponent<AudioSource>().Play();
-                    musicPlaying = true;
+                    go.SetActive(false);
                 }
-
-                goTime -= Time.deltaTime;
             }
-            else
+            else if (TrackTargets.timeLeft <= 1 && TrackTargets.timeLeft > 0)
             {
-                go.SetActive(false);
-            }
-        } else if (TrackTargets.timeLeft <= 1 && TrackTargets.timeLeft > 0)
-        {
-            two.SetActive(false);
-            showGradually(one, opacityOne);
+                two.SetActive(false);
+                showGradually(one, opacityOne);
 
-            if (opacityOne < 1.0f)
-            {
-                opacityOne += transitionSpeed * Time.deltaTime;
+                if (opacityOne < 1.0f)
+                {
+                    opacityOne += transitionSpeed * Time.deltaTime;
+                }
             }
-        }
-        else if (TrackTargets.timeLeft <= 2.0f && TrackTargets.timeLeft > 1.0f)
-        {
-            three.SetActive(false);
-            showGradually(two, opacityTwo);
-
-            if (opacityTwo < 1.0f)
+            else if (TrackTargets.timeLeft <= 2.0f && TrackTargets.timeLeft > 1.0f)
             {
-                opacityTwo += transitionSpeed * Time.deltaTime;
+                three.SetActive(false);
+                showGradually(two, opacityTwo);
+
+                if (opacityTwo < 1.0f)
+                {
+                    opacityTwo += transitionSpeed * Time.deltaTime;
+                }
             }
-        }
-        else if (TrackTargets.timeLeft <= 3.0f && TrackTargets.timeLeft > 2.0f)
-        {
-            showGradually(three, opacityThree);
-
-            if (opacityThree < 1.0f)
+            else if (TrackTargets.timeLeft <= 3.0f && TrackTargets.timeLeft > 2.0f)
             {
-                opacityThree += transitionSpeed * Time.deltaTime;
+                showGradually(three, opacityThree);
+
+                if (opacityThree < 1.0f)
+                {
+                    opacityThree += transitionSpeed * Time.deltaTime;
+                }
             }
         }
 	}

@@ -9,6 +9,7 @@ public class Wind : MonoBehaviour
 	public int force;
     private int objects = 0;
     private bool musicPlaying = false;
+    private bool resetMusic = false;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +18,22 @@ public class Wind : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-
+        if (Menu.stopGame)
+        {
+            if (musicPlaying)
+            {
+                GetComponent<AudioSource>().Stop();
+                resetMusic = true;
+            }
+        }
+        else
+        {
+            if (resetMusic)
+            {
+                resetMusic = false;
+                GetComponent<AudioSource>().Play();
+            }
+        }
 	}
 
 	void OnTriggerStay2D(Collider2D other) 

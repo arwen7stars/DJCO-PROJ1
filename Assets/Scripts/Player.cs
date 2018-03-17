@@ -51,16 +51,19 @@ public class Player : MonoBehaviour {
         {
             if (!FinishingLine.gameOver)
             {
-                CheckKey();
+                if (!Menu.stopGame)
+                {
+                    CheckKey();
 
-                if (hasAirplane)
-                {
-                    airplane.transform.position = new Vector3(transform.GetChild(2).position.x, transform.GetChild(2).position.y, transform.position.z);
-                    airplane.transform.rotation = transform.rotation;
-                }
-                else
-                {
-                    catchAirplane();
+                    if (hasAirplane)
+                    {
+                        airplane.transform.position = new Vector3(transform.GetChild(2).position.x, transform.GetChild(2).position.y, transform.position.z);
+                        airplane.transform.rotation = transform.rotation;
+                    }
+                    else
+                    {
+                        catchAirplane();
+                    }
                 }
             }
             else

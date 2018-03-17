@@ -54,7 +54,7 @@ public class Punch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!FinishingLine.gameOver)
+        if (!FinishingLine.gameOver && !Menu.stopGame)
         {
             processInput();
         }

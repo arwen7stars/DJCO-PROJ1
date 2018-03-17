@@ -40,27 +40,33 @@ public class TrackTargets : MonoBehaviour
 
     void Update()
     {
-        zoom -= zoomSensitivity;
-        zoom = Mathf.Clamp(Mathf.Lerp(camera.orthographicSize, zoom, Time.deltaTime * initialZoomSpeed), minimumOrthographicSize, Mathf.Infinity);
+        if (!Menu.stopGame)
+        {
+            zoom -= zoomSensitivity;
+            zoom = Mathf.Clamp(Mathf.Lerp(camera.orthographicSize, zoom, Time.deltaTime * initialZoomSpeed), minimumOrthographicSize, Mathf.Infinity);
+        }
     }
 
     void LateUpdate()
     {
-        if (timeLeft <= 0)
+        if (!Menu.stopGame)
         {
-            gameStart = true;
-            Rect boundingBox = CalculateTargetsBoundingBox();
-            transform.position = CalculateCameraPosition(boundingBox);
-            camera.orthographicSize = CalculateOrthographicSize(boundingBox);
-        }
-        else
-        {
-            timeLeft -= Time.deltaTime;
+            if (timeLeft <= 0)
+            {
+                gameStart = true;
+                Rect boundingBox = CalculateTargetsBoundingBox();
+                transform.position = CalculateCameraPosition(boundingBox);
+                camera.orthographicSize = CalculateOrthographicSize(boundingBox);
+            }
+            else
+            {
+                timeLeft -= Time.deltaTime;
 
-            camera.orthographicSize = zoom;
+                camera.orthographicSize = zoom;
 
-            step += Time.deltaTime / COUNTDOWN_TIMER;
-            transform.position = Vector3.Lerp(initialPosition, finalPosition, step);
+                step += Time.deltaTime / COUNTDOWN_TIMER;
+                transform.position = Vector3.Lerp(initialPosition, finalPosition, step);
+            }
         }
     }
 
