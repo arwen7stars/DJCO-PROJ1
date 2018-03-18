@@ -8,10 +8,10 @@ public class Airplane : MonoBehaviour
     private float STOP_VELOCITY = 5f;
     private bool inFlight = false;
     private Rigidbody2D airplaneRB;
-    // Use this for initialization
     private Vector2 initVelocity = Vector2.zero;
     private int swerve = 0;
     private float randomSwerve;
+
     void Start()
     {
         airplaneRB = GetComponent<Rigidbody2D>();
@@ -22,30 +22,27 @@ public class Airplane : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Menu.stopGame)
+        if (inFlight)
         {
-            if (inFlight)
+            float currentVelocity = Mathf.Sqrt(Mathf.Pow(airplaneRB.velocity.x, 2) + Mathf.Pow(airplaneRB.velocity.y, 2));
+            if (initVelocity == Vector2.zero)
             {
-                float currentVelocity = Mathf.Sqrt(Mathf.Pow(airplaneRB.velocity.x, 2) + Mathf.Pow(airplaneRB.velocity.y, 2));
-                if (initVelocity == Vector2.zero)
-                {
-                    initVelocity = airplaneRB.velocity;
-                    updateRotation();
-                }
+                initVelocity = airplaneRB.velocity;
+                updateRotation();
+            }
 
-                if (currentVelocity < randomSwerve && swerve > 0)
-                {
-                    float r = Random.Range(-currentVelocity / 2, currentVelocity / 2);
-                    airplaneRB.AddForce((new Vector2(initVelocity.y, -initVelocity.x) / START_VELOCITY) * r, ForceMode2D.Impulse);
-                    swerve--;
-                    randomSwerve = Random.Range(STOP_VELOCITY, currentVelocity);
-                    updateRotation();
-                }
+            if (currentVelocity < randomSwerve && swerve > 0)
+            {
+                float r = Random.Range(-currentVelocity / 2, currentVelocity / 2);
+                airplaneRB.AddForce((new Vector2(initVelocity.y, -initVelocity.x) / START_VELOCITY) * r, ForceMode2D.Impulse);
+                swerve--;
+                randomSwerve = Random.Range(STOP_VELOCITY, currentVelocity);
+                updateRotation();
+            }
 
-                if (currentVelocity < STOP_VELOCITY)
-                {
-                    airplaneRB.AddForce(new Vector2(-airplaneRB.velocity.x, -airplaneRB.velocity.y) / 3, ForceMode2D.Impulse);
-                }
+            if (currentVelocity < STOP_VELOCITY)
+            {
+                airplaneRB.AddForce(new Vector2(-airplaneRB.velocity.x, -airplaneRB.velocity.y) / 3, ForceMode2D.Impulse);
             }
         }
     }

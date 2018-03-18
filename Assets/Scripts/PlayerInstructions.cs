@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerInstructions : MonoBehaviour {
+    public Menu menu;
+    public Countdown countdown;
+    public FinishingLine finishingLine;
+    
     public GameObject redPlayerObj;
     public GameObject bluePlayerObj;
 
@@ -23,10 +27,10 @@ public class PlayerInstructions : MonoBehaviour {
     private string BLUE_THROW_AIRPLANE_MSG = "Press kENTER twice to throw the airplane!";
 
     private string RED_KICK_PLAYER_MSG = "Press E to kick player!";
-    private string BLUE_KICK_PLAYER_MSG = "Press Shift to kick player!";
+    private string BLUE_KICK_PLAYER_MSG = "Press Keypad 0 to kick player!";
 
     private string RED_KICK_AIRPLANE_MSG = "Press E to kick opponent's airplane!";
-    private string BLUE_KICK_AIRPLANE_MSG = "Press Shift to kick opponent's airplane!";
+    private string BLUE_KICK_AIRPLANE_MSG = "Press Keypad 0 to kick opponent's airplane!";
 
     private string WAIT_COOLDOWN = "Abilities on cooldown... Wait ";
 
@@ -40,16 +44,19 @@ public class PlayerInstructions : MonoBehaviour {
 
         redPlayerText = redPlayerInstructions.GetComponent<Text>();
         bluePlayerText = bluePlayerInstructions.GetComponent<Text>();
+
+        Color c = GetComponent<Image>().color;
+        GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.8f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (TrackTargets.gameStart)
+        if (countdown.getGameStart())
         {
-            if (!FinishingLine.gameOver)
+            if (!finishingLine.getGameOver())
             {
-                if (!Menu.stopGame)
+                if (!menu.getStopGame())
                 {
                     this.GetComponent<Image>().enabled = true;
 

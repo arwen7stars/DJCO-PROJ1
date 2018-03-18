@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Countdown : MonoBehaviour {
+    private const float COUNTDOWN_TIMER = 3.0f;
+    private float timeLeft = COUNTDOWN_TIMER;
+    private bool gameStart = false;
+
     public float transitionSpeed = 0.5f;
 
     public GameObject three;
@@ -29,33 +33,36 @@ public class Countdown : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!Menu.stopGame)
+        if (timeLeft <= 0)
         {
-            if (TrackTargets.timeLeft <= 0)
+            gameStart = true;
+            if (goTime > 0)
             {
-                if (goTime > 0)
+                if (opacityGo < 1.0f)
                 {
-                    if (opacityGo < 1.0f)
-                    {
-                        one.SetActive(false);
-                        opacityGo += transitionSpeed * Time.deltaTime;
-                        showGradually(go, opacityGo);
-                    }
-
-                    if (!musicPlaying)
-                    {
-                        GetComponent<AudioSource>().Play();
-                        musicPlaying = true;
-                    }
-
-                    goTime -= Time.deltaTime;
+                    one.SetActive(false);
+                    opacityGo += transitionSpeed * Time.deltaTime;
+                    showGradually(go, opacityGo);
                 }
-                else
+
+                if (!musicPlaying)
                 {
-                    go.SetActive(false);
+                    GetComponent<AudioSource>().Play();
+                    musicPlaying = true;
                 }
+
+                goTime -= Time.deltaTime;
             }
-            else if (TrackTargets.timeLeft <= 1 && TrackTargets.timeLeft > 0)
+            else
+            {
+                go.SetActive(false);
+            }
+        }
+        else
+        {
+            timeLeft -= Time.deltaTime;
+
+            if (timeLeft <= 1 && timeLeft > 0)
             {
                 two.SetActive(false);
                 showGradually(one, opacityOne);
@@ -65,7 +72,7 @@ public class Countdown : MonoBehaviour {
                     opacityOne += transitionSpeed * Time.deltaTime;
                 }
             }
-            else if (TrackTargets.timeLeft <= 2.0f && TrackTargets.timeLeft > 1.0f)
+            else if (timeLeft <= 2.0f && timeLeft > 1.0f)
             {
                 three.SetActive(false);
                 showGradually(two, opacityTwo);
@@ -75,7 +82,7 @@ public class Countdown : MonoBehaviour {
                     opacityTwo += transitionSpeed * Time.deltaTime;
                 }
             }
-            else if (TrackTargets.timeLeft <= 3.0f && TrackTargets.timeLeft > 2.0f)
+            else if (timeLeft <= 3.0f && timeLeft > 2.0f)
             {
                 showGradually(three, opacityThree);
 
@@ -87,12 +94,26 @@ public class Countdown : MonoBehaviour {
         }
 	}
 
-    public static void showGradually(GameObject obj, float opacity)
+    public void showGradually(GameObject obj, float opacity)
     {
         Image img = obj.GetComponent<Image>();
         Color c = img.color;
 
         img.color = new Color(c.r, c.g, c.b, opacity);
         obj.SetActive(true);
+    }
+
+    public float getCountdownTimer() {
+        return COUNTDOWN_TIMER;
+    }
+
+    public float getTimeLeft()
+    {
+        return timeLeft;
+    }
+
+    public bool getGameStart()
+    {
+        return gameStart;
     }
 }

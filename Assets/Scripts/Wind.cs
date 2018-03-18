@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Wind : MonoBehaviour 
 {
-	public int x;
-	public int y;
-	public int force;
-    private int objects = 0;
+    public Menu menu;
+    public FinishingLine finishingLine;
+
+    public int x;
+    public int y;
+    public int force;
+
+    private int touchedObjects = 0;
     private bool musicPlaying = false;
     private bool resetMusic = false;
 
@@ -18,12 +22,16 @@ public class Wind : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        if (Menu.stopGame)
+        if (menu.getStopGame() || finishingLine.getGameOver())
         {
             if (musicPlaying)
             {
                 GetComponent<AudioSource>().Stop();
-                resetMusic = true;
+
+                if (menu.getStopGame())
+                {
+                    resetMusic = true;
+                }
             }
         }
         else
@@ -53,7 +61,7 @@ public class Wind : MonoBehaviour
 
     void OnTriggerEnter2D()
     {
-        objects++;
+        touchedObjects++;
         if (!musicPlaying)
         {
             GetComponent<AudioSource>().Play();
@@ -63,8 +71,8 @@ public class Wind : MonoBehaviour
 
     void OnTriggerExit2D()
     {
-        objects--;
-        if (objects.Equals(0))
+        touchedObjects--;
+        if (touchedObjects.Equals(0))
         {
             GetComponent<AudioSource>().Stop();
             musicPlaying = false;

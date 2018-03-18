@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+    public Countdown countdown;
+    public FinishingLine finishingLine;
+    
     public Arrow arrow;
     public GameObject airplane;
 
@@ -44,30 +47,27 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update()
-    {        
-        
-        if (TrackTargets.gameStart)
-        {
-            if (!FinishingLine.gameOver)
-            {
-                if (!Menu.stopGame)
-                {
-                    CheckKey();
+    {
 
-                    if (hasAirplane)
-                    {
-                        airplane.transform.position = new Vector3(transform.GetChild(2).position.x, transform.GetChild(2).position.y, transform.position.z);
-                        airplane.transform.rotation = transform.rotation;
-                    }
-                    else
-                    {
-                        catchAirplane();
-                    }
+        if (countdown.getGameStart())
+        {
+            if (!finishingLine.getGameOver())
+            {
+                CheckKey();
+
+                if (hasAirplane)
+                {
+                    airplane.transform.position = new Vector3(transform.GetChild(2).position.x, transform.GetChild(2).position.y, transform.position.z);
+                    airplane.transform.rotation = transform.rotation;
+                }
+                else
+                {
+                    catchAirplane();
                 }
             }
             else
             {
-                if ((FinishingLine.winner.Equals(gameObject.name) || FinishingLine.gameTie) && !finishingPosition)
+                if ((finishingLine.getWinner().Equals(gameObject.name) || finishingLine.getGameTie()) && !finishingPosition)
                 {
                     runTowardsAirplane();
                 }

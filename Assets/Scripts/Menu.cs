@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour {
     public GameObject menuPanel;
     public GameObject menu;
+    public FinishingLine finishingLine;
 
-    public static bool stopGame = false;
+    private bool stopGame = false;
     private const float FULL_OPACITY = 255f;
 
 	// Use this for initialization
@@ -18,7 +20,7 @@ public class Menu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!FinishingLine.gameOver)
+        if (!finishingLine.getGameOver())
         {
             if (Input.GetKeyUp(KeyCode.Escape))
             {
@@ -45,8 +47,19 @@ public class Menu : MonoBehaviour {
         Time.timeScale = 1;
     }
 
+    public void Restart()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    public bool getStopGame()
+    {
+        return stopGame;
     }
 }

@@ -2,10 +2,7 @@
 
 public class TrackTargets : MonoBehaviour
 {
-    private const float COUNTDOWN_TIMER = 3.0f;
-
-    public static bool gameStart = false;
-    public static float timeLeft = COUNTDOWN_TIMER;
+    public Countdown countdown;
     
     public GameObject[] targets;
     public float boundingBoxPadding = 4f;
@@ -20,7 +17,7 @@ public class TrackTargets : MonoBehaviour
     private float zoom;
     private float initialZoomSpeed;
 
-    new Camera camera;
+    Camera camera;
 
     void Awake()
     {
@@ -35,38 +32,29 @@ public class TrackTargets : MonoBehaviour
 
         zoom = camera.orthographicSize;
 
-        initialZoomSpeed = (zoom - minimumOrthographicSize) / COUNTDOWN_TIMER / zoomSensitivity;
+        initialZoomSpeed = (zoom - minimumOrthographicSize) / countdown.getCountdownTimer() / zoomSensitivity;
     }
 
     void Update()
     {
-        if (!Menu.stopGame)
-        {
-            zoom -= zoomSensitivity;
-            zoom = Mathf.Clamp(Mathf.Lerp(camera.orthographicSize, zoom, Time.deltaTime * initialZoomSpeed), minimumOrthographicSize, Mathf.Infinity);
-        }
+        zoom -= zoomSensitivity;
+        zoom = Mathf.Clamp(Mathf.Lerp(camera.orthographicSize, zoom, Time.deltaTime * initialZoomSpeed), minimumOrthographicSize, Mathf.Infinity);
     }
 
     void LateUpdate()
     {
-        if (!Menu.stopGame)
+        if (countdown.getTimeLeft() <= 0)
         {
-            if (timeLeft <= 0)
-            {
-                gameStart = true;
-                Rect boundingBox = CalculateTargetsBoundingBox();
-                transform.position = CalculateCameraPosition(boundingBox);
-                camera.orthographicSize = CalculateOrthographicSize(boundingBox);
-            }
-            else
-            {
-                timeLeft -= Time.deltaTime;
+            Rect boundingBox = CalculateTargetsBoundingBox();
+            transform.position = CalculateCameraPosition(boundingBox);
+            camera.orthographicSize = CalculateOrthographicSize(boundingBox);
+        }
+        else
+        {
+            camera.orthographicSize = zoom;
 
-                camera.orthographicSize = zoom;
-
-                step += Time.deltaTime / COUNTDOWN_TIMER;
-                transform.position = Vector3.Lerp(initialPosition, finalPosition, step);
-            }
+            step += Time.deltaTime / countdown.getCountdownTimer();
+            transform.position = Vector3.Lerp(initialPosition, finalPosition, step);
         }
     }
 

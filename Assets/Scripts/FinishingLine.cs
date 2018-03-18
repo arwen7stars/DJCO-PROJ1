@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FinishingLine : MonoBehaviour {
-    public GameObject finishLine;
-
     public GameObject winPlayerOne;
     public GameObject winPlayerTwo;
     public GameObject tie;
@@ -16,8 +14,8 @@ public class FinishingLine : MonoBehaviour {
     public GameObject happy;
     public GameObject sad;
 
-    public GameObject panel;
-    public GameObject textExitGame;
+    public GameObject panelExitGame;
+    public GameObject menuExitGame;
 
     public GameObject countdown;
     private bool musicPlaying = false;
@@ -26,21 +24,20 @@ public class FinishingLine : MonoBehaviour {
     private Collider2D airplaneTwoCollider;
     private Collider2D finishLineCollider;
 
-    private float transitionSpeed = 3f;
-    private float opacityExitGame = 0f;
+    private bool gameOver = false;
+    private bool gameTie = false;
+    private string winner = "";
 
-    public static bool gameOver = false;
-    public static bool gameTie = false;
-    public static string winner = "";
+    private const float FULL_OPACITY = 255f;
 
 	// Use this for initialization
 	void Start () {
         airplaneOneCollider = playerOne.GetComponent<Player>().getAirplane().GetComponent<Collider2D>();
         airplaneTwoCollider = playerTwo.GetComponent<Player>().getAirplane().GetComponent<Collider2D>();
-        finishLineCollider = finishLine.GetComponent<Collider2D>();
-        Color c = textExitGame.GetComponent<Text>().color;
+        finishLineCollider = GetComponent<Collider2D>();
 
-        textExitGame.GetComponent<Text>().color = new Color(c.r, c.g, c.b, 0);
+        Color c = menuExitGame.GetComponent<Image>().color;
+        menuExitGame.GetComponent<Image>().color = new Color(c.r, c.g, c.b, FULL_OPACITY);
 	}
 	
 	// Update is called once per frame
@@ -93,12 +90,7 @@ public class FinishingLine : MonoBehaviour {
                     tie.SetActive(false);
                 }
 
-                if (opacityExitGame < 1f)
-                {
-                    Countdown.showGradually(panel, opacityExitGame);
-                    showTextGradually(textExitGame, opacityExitGame);
-                    opacityExitGame += transitionSpeed * Time.deltaTime;
-                }
+                panelExitGame.SetActive(true);
 
                 if (Input.GetKey(KeyCode.Return))
                 {
@@ -149,5 +141,20 @@ public class FinishingLine : MonoBehaviour {
     {
         showHappyFace(winner);
         showSadFace(loser);
+    }
+
+    public bool getGameOver()
+    {
+        return gameOver;
+    }
+
+    public string getWinner()
+    {
+        return winner;
+    }
+
+    public bool getGameTie()
+    {
+        return gameTie;
     }
 }

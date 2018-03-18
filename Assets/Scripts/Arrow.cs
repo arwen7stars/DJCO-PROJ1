@@ -113,6 +113,9 @@ public class Arrow : MonoBehaviour
 
     } // Active
 
+    public Countdown countdown;
+    public Menu menu;
+    public FinishingLine finishingLine;
 
     // the diff between the player and this object's y position
     public const float Y_DIFF = 0.8f;
@@ -180,10 +183,10 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
-        if (TrackTargets.gameStart){
-            if (!FinishingLine.gameOver)
+        if (countdown.getGameStart()){
+            if (!finishingLine.getGameOver())
             {
-                if (!Menu.stopGame)
+                if (!menu.getStopGame())
                 {
                     processInput();
 
